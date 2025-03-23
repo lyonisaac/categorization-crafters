@@ -1,6 +1,7 @@
 import React from 'react';
 import { TableCell, TableRow, Badge } from '@/components/ui';
 import { LogEntry } from '@/types/log-table-types';
+import { getActionColor, getOutcomeColor, formatAction, formatOutcome } from '@/utils/log-format-utils';
 
 interface LogTableRowProps {
   log: LogEntry;
@@ -9,27 +10,6 @@ interface LogTableRowProps {
 }
 
 const LogTableRow: React.FC<LogTableRowProps> = ({ log, index, formatDate }) => {
-  const getActionColor = (action: string) => {
-    switch (action) {
-      case 'create':
-        return 'bg-green-100 text-green-800 border border-green-200';
-      case 'update':
-        return 'bg-blue-100 text-blue-800 border border-blue-200';
-      case 'delete':
-        return 'bg-app-delete/10 text-app-delete border border-app-delete/20';
-      case 'duplicate':
-        return 'bg-purple-100 text-purple-800 border border-purple-200';
-      default:
-        return 'bg-gray-100 text-gray-800 border border-gray-200';
-    }
-  };
-  
-  const getOutcomeColor = (outcome: string) => {
-    return outcome === 'success'
-      ? 'bg-green-100 text-green-800 border border-green-200'
-      : 'bg-app-delete/10 text-app-delete border border-app-delete/20';
-  };
-
   return (
     <TableRow 
       key={log.id}
@@ -37,14 +17,18 @@ const LogTableRow: React.FC<LogTableRowProps> = ({ log, index, formatDate }) => 
     >
       <TableCell className="text-sm text-muted-foreground">{formatDate(log.timestamp)}</TableCell>
       <TableCell>
-        <Badge className={`font-normal ${getActionColor(log.action)}`}>
-          {log.action.charAt(0).toUpperCase() + log.action.slice(1)}
+        <Badge 
+          className={`${getActionColor(log.action)} border px-2 py-0.5 text-xs font-medium rounded-md`}
+        >
+          {formatAction(log.action)}
         </Badge>
       </TableCell>
       <TableCell className="font-medium">{log.ruleName}</TableCell>
       <TableCell>
-        <Badge className={`font-normal ${getOutcomeColor(log.outcome)}`}>
-          {log.outcome.charAt(0).toUpperCase() + log.outcome.slice(1)}
+        <Badge 
+          className={`${getOutcomeColor(log.outcome)} border px-2 py-0.5 text-xs font-medium rounded-md`}
+        >
+          {formatOutcome(log.outcome)}
         </Badge>
       </TableCell>
     </TableRow>

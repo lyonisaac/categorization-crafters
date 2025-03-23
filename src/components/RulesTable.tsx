@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { TableBody, Button } from '@/components/ui';
 import { Plus } from 'lucide-react';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { mockRules, Rule, SortField } from '@/types/rules-table-types';
-import { SortState, updateSortState, sortData } from '@/utils/sorting-utils';
+import { mockRules, SortField } from '@/types/rules-table-types';
+import { SortState, updateSortState } from '@/utils/sorting-utils';
+import { sortRules } from '@/utils/rule-sort-utils';
 import { usePagination } from '@/hooks/usePagination';
 import { formatDate } from '@/utils/date-utils';
 import SearchableTable from '@/components/common/SearchableTable';
@@ -30,20 +31,7 @@ const RulesTable: React.FC = () => {
   }, [searchTerm]);
 
   const sortedRules = useMemo(() => {
-    return sortData<Rule, SortField>(
-      filteredRules,
-      sortState,
-      (rule, field) => {
-        if (field === 'status') {
-          const statusOrder = { active: 0, pending: 1, inactive: 2 };
-          return statusOrder[rule.status as keyof typeof statusOrder];
-        }
-        if (field === 'lastModified') {
-          return new Date(rule[field]);
-        }
-        return rule[field];
-      }
-    );
+    return sortRules(filteredRules, sortState);
   }, [filteredRules, sortState]);
 
   const {

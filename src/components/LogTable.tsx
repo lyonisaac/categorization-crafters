@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { TableBody, Button } from '@/components/ui';
 import { Download } from 'lucide-react';
-import { mockLogs } from '@/types/log-table-types';
+import { LogEntry } from '@/types/log-table-types';
+import { mockLogs } from '@/data/mock-logs';
 import { usePagination } from '@/hooks/usePagination';
 import { formatDateWithSeconds } from '@/utils/date-utils';
 import SearchableTable from '@/components/common/SearchableTable';

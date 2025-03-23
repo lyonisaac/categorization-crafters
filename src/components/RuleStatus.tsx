@@ -2,6 +2,7 @@ import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Check, Clock, AlertTriangle, X } from 'lucide-react';
+import { getStatusBadgeClass, getStatusDisplayText } from '@/utils/rule-sort-utils';
 
 type StatusType = 'active' | 'inactive' | 'pending';
 
@@ -16,20 +17,14 @@ interface RuleStatusProps {
 const statusConfig = {
   active: { 
     icon: Check, 
-    color: 'bg-app-success/20 text-app-success border-app-success/30', 
-    label: 'Active',
     description: 'This rule is active and processing transactions'
   },
   inactive: { 
     icon: AlertTriangle, 
-    color: 'bg-app-warning/20 text-app-warning border-app-warning/30', 
-    label: 'Inactive',
     description: 'This rule is currently inactive'
   },
   pending: { 
     icon: Clock, 
-    color: 'bg-app-muted/20 text-app-muted border-app-muted/30', 
-    label: 'Pending',
     description: 'This rule is scheduled to activate soon'
   },
 };
@@ -41,7 +36,9 @@ const RuleStatus: React.FC<RuleStatusProps> = ({
   interactive = false,
   onChange 
 }) => {
-  const { icon: StatusIcon, color, label, description } = statusConfig[status];
+  const { icon: StatusIcon, description } = statusConfig[status];
+  const color = getStatusBadgeClass(status);
+  const label = getStatusDisplayText(status);
   
   const sizeClasses = {
     sm: showLabel ? 'text-xs py-0 px-1.5' : 'h-4 w-4 p-0',
