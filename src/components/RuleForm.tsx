@@ -34,6 +34,7 @@ const mockRule = {
     value: 'Groceries'
   }]
 };
+
 const criteriaOptions = [{
   value: 'payee',
   label: 'Payee'
@@ -120,9 +121,6 @@ const actionOptions = [{
 }, {
   value: 'memo',
   label: 'Modify Memo'
-}, {
-  value: 'split',
-  label: 'Split Transaction'
 }];
 const categoryOptions = [{
   value: 'groceries',
@@ -150,16 +148,12 @@ const flagOptions = [{
   value: 'important',
   label: 'Important'
 }];
+
 const RuleForm: React.FC = () => {
   const navigate = useNavigate();
-  const {
-    id
-  } = useParams<{
-    id: string;
-  }>();
+  const { id } = useParams<{ id: string; }>();
   const isEditMode = !!id;
 
-  // State for form data
   const [name, setName] = useState(isEditMode ? mockRule.name : '');
   const [description, setDescription] = useState(isEditMode ? mockRule.description : '');
   const [criteria, setCriteria] = useState(isEditMode ? mockRule.criteria : [{
@@ -175,7 +169,6 @@ const RuleForm: React.FC = () => {
   }]);
   const [relationOperator, setRelationOperator] = useState<'AND' | 'OR'>('AND');
 
-  // Add a new criterion
   const addCriterion = () => {
     setCriteria([...criteria, {
       id: `new-c${criteria.length + 1}`,
@@ -185,12 +178,10 @@ const RuleForm: React.FC = () => {
     }]);
   };
 
-  // Remove a criterion
   const removeCriterion = (id: string) => {
     setCriteria(criteria.filter(c => c.id !== id));
   };
 
-  // Update a criterion
   const updateCriterion = (id: string, field: string, value: string) => {
     setCriteria(criteria.map(c => {
       if (c.id === id) {
@@ -203,7 +194,6 @@ const RuleForm: React.FC = () => {
     }));
   };
 
-  // Add a new action
   const addAction = () => {
     setActions([...actions, {
       id: `new-a${actions.length + 1}`,
@@ -212,12 +202,10 @@ const RuleForm: React.FC = () => {
     }]);
   };
 
-  // Remove an action
   const removeAction = (id: string) => {
     setActions(actions.filter(a => a.id !== id));
   };
 
-  // Update an action
   const updateAction = (id: string, field: string, value: string) => {
     setActions(actions.map(a => {
       if (a.id === id) {
@@ -230,7 +218,6 @@ const RuleForm: React.FC = () => {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log({
@@ -240,19 +227,20 @@ const RuleForm: React.FC = () => {
       actions,
       relationOperator
     });
-    // In a real app, you would save the rule here
     navigate('/');
   };
-  return <form onSubmit={handleSubmit} className="space-y-8 animate-slide-in">
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-8 animate-slide-in">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">
+        <h2 className="text-2xl font-fredoka font-semibold">
           {isEditMode ? 'Edit Rule' : 'Create New Rule'}
         </h2>
         <div className="space-x-2">
-          <Button type="button" variant="outline" onClick={() => navigate('/')}>
+          <Button type="button" variant="outline" onClick={() => navigate('/')} className="font-fredoka">
             Cancel
           </Button>
-          <Button type="submit" className="bg-app-blue hover:bg-app-blue/90 text-white">
+          <Button type="submit" className="bg-app-success hover:bg-app-success/90 text-white font-fredoka">
             Save
           </Button>
         </div>
@@ -260,15 +248,15 @@ const RuleForm: React.FC = () => {
       
       <Card className="glass-card">
         <div className="p-6">
-          <h3 className="text-lg font-medium mb-4">General Details</h3>
+          <h3 className="text-lg font-fredoka font-medium mb-4">General Details</h3>
           <div className="space-y-4">
             <div className="grid grid-cols-1 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Rule Name <span className="text-app-delete">*</span></Label>
+                <Label htmlFor="name" className="font-fredoka">Rule Name <span className="text-app-delete">*</span></Label>
                 <Input id="name" value={name} onChange={e => setName(e.target.value)} placeholder="Enter rule name" required className="glass-card" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description" className="font-fredoka">Description</Label>
                 <Input id="description" value={description} onChange={e => setDescription(e.target.value)} placeholder="Enter rule description (optional)" className="glass-card" />
               </div>
             </div>
@@ -279,13 +267,25 @@ const RuleForm: React.FC = () => {
       <Card className="glass-card">
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-medium">Criteria</h3>
+            <h3 className="text-lg font-fredoka font-medium">Criteria</h3>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <Button type="button" variant="outline" size="sm" className={`rounded-full px-4 ${relationOperator === 'AND' ? 'bg-app-blue text-white hover:bg-app-blue/90' : 'hover:border-app-blue'}`} onClick={() => setRelationOperator('AND')}>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  size="sm" 
+                  className={`rounded-full px-4 font-fredoka ${relationOperator === 'AND' ? 'bg-app-blue text-white hover:bg-app-blue/90' : 'hover:border-app-blue'}`} 
+                  onClick={() => setRelationOperator('AND')}
+                >
                   AND
                 </Button>
-                <Button type="button" variant="outline" size="sm" className={`rounded-full px-4 ${relationOperator === 'OR' ? 'bg-app-blue text-white hover:bg-app-blue/90' : 'hover:border-app-blue'}`} onClick={() => setRelationOperator('OR')}>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  size="sm" 
+                  className={`rounded-full px-4 font-fredoka ${relationOperator === 'OR' ? 'bg-app-blue text-white hover:bg-app-blue/90' : 'hover:border-app-blue'}`} 
+                  onClick={() => setRelationOperator('OR')}
+                >
                   OR
                 </Button>
               </div>
@@ -293,7 +293,8 @@ const RuleForm: React.FC = () => {
           </div>
           
           <div className="space-y-4">
-            {criteria.map((criterion, index) => <div key={criterion.id} className="flex items-start space-x-2 p-3 rounded-md bg-white/40 border border-gray-100 shadow-sm">
+            {criteria.map((criterion, index) => (
+              <div key={criterion.id} className="flex items-start space-x-2 p-3 rounded-md bg-white/40 border border-gray-100 shadow-sm">
                 <div className="text-gray-400 mt-2.5">
                   <GripVertical size={18} />
                 </div>
@@ -348,9 +349,15 @@ const RuleForm: React.FC = () => {
                 <Button type="button" variant="ghost" size="icon" onClick={() => removeCriterion(criterion.id)} className="text-gray-400 hover:text-app-delete">
                   <Trash2 size={18} />
                 </Button>
-              </div>)}
+              </div>
+            ))}
             
-            <Button type="button" variant="outline" onClick={addCriterion} className="mt-2 glass-card hover:bg-app-blue hover:text-white">
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={addCriterion} 
+              className="mt-2 glass-card font-fredoka hover:bg-app-success hover:text-white hover:border-app-success"
+            >
               <Plus size={16} className="mr-2" />
               Add Criterion
             </Button>
@@ -360,10 +367,11 @@ const RuleForm: React.FC = () => {
       
       <Card className="glass-card">
         <div className="p-6">
-          <h3 className="text-lg font-medium mb-4">Actions</h3>
+          <h3 className="text-lg font-fredoka font-medium mb-4">Actions</h3>
           
           <div className="space-y-4">
-            {actions.map((action, index) => <div key={action.id} className="flex items-start space-x-2 p-3 rounded-md bg-white/40 border border-gray-100 shadow-sm">
+            {actions.map((action, index) => (
+              <div key={action.id} className="flex items-start space-x-2 p-3 rounded-md bg-white/40 border border-gray-100 shadow-sm">
                 <div className="text-gray-400 mt-2.5">
                   <GripVertical size={18} />
                 </div>
@@ -408,9 +416,15 @@ const RuleForm: React.FC = () => {
                 <Button type="button" variant="ghost" size="icon" onClick={() => removeAction(action.id)} className="text-gray-400 hover:text-app-delete">
                   <Trash2 size={18} />
                 </Button>
-              </div>)}
+              </div>
+            ))}
             
-            <Button type="button" variant="outline" onClick={addAction} className="mt-2 glass-card hover:bg-app-blue hover:text-white">
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={addAction} 
+              className="mt-2 glass-card font-fredoka hover:bg-app-success hover:text-white hover:border-app-success"
+            >
               <Plus size={16} className="mr-2" />
               Add Action
             </Button>
@@ -419,19 +433,23 @@ const RuleForm: React.FC = () => {
       </Card>
       
       <div className="flex justify-between items-center pt-2">
-        {isEditMode && <Button type="button" className="bg-app-delete hover:bg-app-delete/90 text-white">
+        {isEditMode && (
+          <Button type="button" className="bg-app-delete hover:bg-app-delete/90 text-white font-fredoka">
             <Trash2 size={16} className="mr-2" />
             Delete Rule
-          </Button>}
+          </Button>
+        )}
         <div className="ml-auto space-x-2">
-          <Button type="button" variant="outline" onClick={() => navigate('/')}>
+          <Button type="button" variant="outline" onClick={() => navigate('/')} className="font-fredoka">
             Cancel
           </Button>
-          <Button type="submit" className="text-white bg-app-blue">
+          <Button type="submit" className="text-white bg-app-success hover:bg-app-success/90 font-fredoka">
             {isEditMode ? 'Update Rule' : 'Create Rule'}
           </Button>
         </div>
       </div>
-    </form>;
+    </form>
+  );
 };
+
 export default RuleForm;

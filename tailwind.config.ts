@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -19,6 +18,10 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'fredoka': ['Fredoka', 'sans-serif'],
+				'quicksand': ['Quicksand', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -65,11 +68,11 @@ export default {
 				},
 				app: {
 					'blue': '#1e56ff', 
-					'background': '#b8c7e6',
+					'background': '#f1f6ff',
 					'delete': '#96413e',
 					'card': 'rgba(255, 255, 255, 0.9)',
-					'success': '#4ade80', // Added success accent color
-					'warning': '#fbbf24', // Added warning accent color
+					'success': '#4db057',
+					'warning': '#fbbf24',
 				}
 			},
 			borderRadius: {

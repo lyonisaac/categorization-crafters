@@ -23,7 +23,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                <h1 className="text-xl font-semibold text-app-blue">Transaction Rules</h1>
+                <h1 className="text-xl font-fredoka font-semibold text-app-blue">Transaction Rules</h1>
               </div>
             </div>
             <nav className="hidden sm:ml-6 sm:flex sm:space-x-8">
@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   key={item.path}
                   to={item.path}
                   className={({ isActive }) =>
-                    `inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-all-300 ${
+                    `inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium font-fredoka transition-all-300 ${
                       isActive
                         ? 'border-app-blue text-gray-900'
                         : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
@@ -64,7 +64,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex flex-col items-center p-3 text-xs font-medium transition-all-300 ${
+                  `flex flex-col items-center p-3 text-xs font-medium font-fredoka transition-all-300 ${
                     isActive
                       ? 'text-app-blue'
                       : 'text-gray-500 hover:text-gray-700'

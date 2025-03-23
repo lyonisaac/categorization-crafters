@@ -92,6 +92,11 @@
   body {
     @apply bg-app-background text-foreground antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6, button, .font-heading {
+    font-family: 'Fredoka', sans-serif;
   }
 
   html {
