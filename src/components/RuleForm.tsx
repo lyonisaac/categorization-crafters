@@ -279,7 +279,7 @@ const RuleForm: React.FC = () => {
       type="button" 
       variant="outline" 
       onClick={() => setCurrentStep(prev => Math.max(1, prev - 1))}
-      className="font-heading flex items-center gap-1"
+      className="h-10 font-heading flex items-center gap-2 px-3"
     >
       <ArrowLeft size={16} />
       Back
@@ -298,7 +298,11 @@ const RuleForm: React.FC = () => {
         type="button" 
         disabled={!isStepComplete()}
         onClick={() => setCurrentStep(prev => Math.min(4, prev + 1))}
-        className={`ml-2 bg-app-success hover:bg-app-success/90 ${!isStepComplete() ? 'opacity-70 cursor-not-allowed bg-app-success-inactive hover:bg-app-success-inactive' : ''}`}
+        className={`h-10 font-heading flex items-center gap-2 px-3 ${
+          !isStepComplete() 
+            ? 'opacity-70 cursor-not-allowed bg-app-success-inactive hover:bg-app-success-inactive' 
+            : 'bg-app-success hover:bg-app-success/90'
+        }`}
       >
         Next
         <ArrowRight size={16} />
@@ -422,11 +426,6 @@ const RuleForm: React.FC = () => {
             <Button type="button" variant="outline" onClick={() => navigate('/')} className="font-heading bg-app-delete text-white hover:bg-app-delete/90">
               Cancel
             </Button>
-            {currentStep === 4 ? (
-              <Button type="submit" className="bg-app-success hover:bg-app-success/90 text-white font-heading">
-                {isEditMode ? 'Update Rule' : 'Create Rule'}
-              </Button>
-            ) : null}
           </div>
         </div>
         
@@ -837,9 +836,18 @@ const RuleForm: React.FC = () => {
               Delete Rule
             </Button>
           )}
-          <div className={`${isEditMode && currentStep === 4 ? '' : 'ml-auto'} space-x-3`}>
+          <div className="flex items-center gap-3 ml-auto">
             {currentStep > 1 && <PrevStepButton />}
             {currentStep < 4 && <NextStepButton />}
+            {currentStep === 4 && (
+              <Button 
+                type="submit" 
+                className="h-10 font-heading flex items-center gap-2 px-3 bg-app-success hover:bg-app-success/90"
+              >
+                {isEditMode ? 'Update Rule' : 'Create Rule'}
+                <ArrowRight size={16} />
+              </Button>
+            )}
           </div>
         </div>
       </form>
