@@ -419,7 +419,7 @@ const RuleForm: React.FC = () => {
             {isEditMode ? 'Edit Rule' : 'Create New Rule'}
           </h2>
           <div className="space-x-2">
-            <Button type="button" variant="outline" onClick={() => navigate('/')} className="font-heading">
+            <Button type="button" variant="outline" onClick={() => navigate('/')} className="font-heading bg-app-delete text-white hover:bg-app-delete/90">
               Cancel
             </Button>
             {currentStep === 4 ? (
