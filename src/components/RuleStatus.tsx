@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
@@ -37,15 +36,17 @@ const RuleStatus: React.FC<RuleStatusProps> = ({ status, showLabel = false, size
   const { icon: StatusIcon, color, label, description } = statusConfig[status];
   
   const sizeClasses = {
-    sm: 'text-xs py-0 px-1.5',
-    md: 'text-xs py-0.5 px-2',
-    lg: 'text-sm py-1 px-2.5',
+    sm: showLabel ? 'text-xs py-0 px-1.5' : 'h-4 w-4 p-0',
+    md: showLabel ? 'text-xs py-0.5 px-2' : 'h-5 w-5 p-0',
+    lg: showLabel ? 'text-sm py-1 px-2.5' : 'h-6 w-6 p-0',
   };
   
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Badge className={`font-fredoka ${color} ${sizeClasses[size]} flex items-center gap-1`}>
+        <Badge 
+          className={`font-fredoka ${color} ${sizeClasses[size]} flex items-center justify-center ${!showLabel ? 'rounded-full aspect-square' : 'gap-1'}`}
+        >
           <StatusIcon size={size === 'sm' ? 10 : size === 'md' ? 12 : 14} />
           {showLabel && <span>{label}</span>}
         </Badge>

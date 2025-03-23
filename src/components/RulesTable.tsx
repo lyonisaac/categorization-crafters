@@ -200,7 +200,7 @@ const RulesTable: React.FC = () => {
                     <div className="truncate pr-4">{rule.actions}</div>
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
-                    <RuleStatus status={rule.status as 'active' | 'inactive' | 'pending'} showLabel={true} />
+                    <RuleStatus status={rule.status as 'active' | 'inactive' | 'pending'} showLabel={false} />
                   </TableCell>
                   <TableCell className="hidden sm:table-cell text-muted-foreground text-sm whitespace-nowrap">
                     {formatDate(rule.lastModified)}
