@@ -68,6 +68,8 @@ export default {
 					'background': '#b8c7e6',
 					'delete': '#96413e',
 					'card': 'rgba(255, 255, 255, 0.9)',
+					'success': '#4ade80', // Added success accent color
+					'warning': '#fbbf24', // Added warning accent color
 				}
 			},
 			borderRadius: {
@@ -107,6 +109,10 @@ export default {
 				'slide-out': {
 					'0%': { transform: 'translateY(0)', opacity: '1' },
 					'100%': { transform: 'translateY(10px)', opacity: '0' }
+				},
+				'pulse-gentle': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.7' }
 				}
 			},
 			animation: {
@@ -115,7 +121,11 @@ export default {
 				'fade-in': 'fade-in 0.3s ease-out forwards',
 				'fade-out': 'fade-out 0.3s ease-out forwards',
 				'slide-in': 'slide-in 0.4s ease-out forwards',
-				'slide-out': 'slide-out 0.4s ease-out forwards'
+				'slide-out': 'slide-out 0.4s ease-out forwards',
+				'pulse-gentle': 'pulse-gentle 2s ease-in-out infinite'
+			},
+			boxShadow: {
+				'glass': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
 			}
 		}
 	},
