@@ -427,7 +427,7 @@ const RuleForm: React.FC = () => {
           <Button type="button" variant="outline" onClick={() => navigate('/')}>
             Cancel
           </Button>
-          <Button type="submit" className="text-white bg-[#29b529]">
+          <Button type="submit" className="text-white bg-app-blue">
             {isEditMode ? 'Update Rule' : 'Create Rule'}
           </Button>
         </div>
