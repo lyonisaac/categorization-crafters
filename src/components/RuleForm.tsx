@@ -298,7 +298,7 @@ const RuleForm: React.FC = () => {
         type="button" 
         disabled={!isStepComplete()}
         onClick={() => setCurrentStep(prev => Math.min(4, prev + 1))}
-        className={`ml-2 bg-emerald-600 hover:bg-emerald-700 ${!isStepComplete() ? 'opacity-70 cursor-not-allowed bg-emerald-400 hover:bg-emerald-400' : ''}`}
+        className={`ml-2 bg-app-success hover:bg-app-success/90 ${!isStepComplete() ? 'opacity-70 cursor-not-allowed bg-app-success-inactive hover:bg-app-success-inactive' : ''}`}
       >
         Next
         <ArrowRight size={16} />
