@@ -1,7 +1,7 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
-import { Check, Clock, AlertTriangle } from 'lucide-react';
+import { Check, Clock, AlertTriangle, X } from 'lucide-react';
 
 type StatusType = 'active' | 'inactive' | 'pending';
 
@@ -9,6 +9,8 @@ interface RuleStatusProps {
   status: StatusType;
   showLabel?: boolean;
   size?: 'sm' | 'md' | 'lg';
+  interactive?: boolean;
+  onChange?: (status: 'active' | 'inactive') => void;
 }
 
 const statusConfig = {
@@ -32,7 +34,13 @@ const statusConfig = {
   },
 };
 
-const RuleStatus: React.FC<RuleStatusProps> = ({ status, showLabel = false, size = 'md' }) => {
+const RuleStatus: React.FC<RuleStatusProps> = ({ 
+  status, 
+  showLabel = false, 
+  size = 'md', 
+  interactive = false,
+  onChange 
+}) => {
   const { icon: StatusIcon, color, label, description } = statusConfig[status];
   
   const sizeClasses = {
@@ -40,6 +48,35 @@ const RuleStatus: React.FC<RuleStatusProps> = ({ status, showLabel = false, size
     md: showLabel ? 'text-xs py-0.5 px-2' : 'h-5 w-5 p-0',
     lg: showLabel ? 'text-sm py-1 px-2.5' : 'h-6 w-6 p-0',
   };
+  
+  if (interactive && onChange) {
+    return (
+      <div className="flex space-x-4 mt-1">
+        <div 
+          className={`cursor-pointer rounded-md px-4 py-2 flex items-center gap-2 transition-all ${
+            status === 'active' 
+              ? 'bg-app-success/20 border border-app-success/30' 
+              : 'bg-white/40 border border-gray-200 hover:bg-white/60'
+          }`}
+          onClick={() => onChange('active')}
+        >
+          <Check size={16} className={status === 'active' ? 'text-app-success' : 'text-gray-400'} />
+          <span className="font-body text-sm">Active</span>
+        </div>
+        <div 
+          className={`cursor-pointer rounded-md px-4 py-2 flex items-center gap-2 transition-all ${
+            status === 'inactive' 
+              ? 'bg-app-warning/20 border border-app-warning/30' 
+              : 'bg-white/40 border border-gray-200 hover:bg-white/60'
+          }`}
+          onClick={() => onChange('inactive')}
+        >
+          <X size={16} className={status === 'inactive' ? 'text-app-warning' : 'text-gray-400'} />
+          <span className="font-body text-sm">Inactive</span>
+        </div>
+      </div>
+    );
+  }
   
   return (
     <Tooltip>
