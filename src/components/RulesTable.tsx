@@ -95,7 +95,7 @@ const RulesTable: React.FC = () => {
                   {formatDate(rule.lastModified)}
                 </TableCell>
                 <TableCell className="text-right space-x-2">
-                  <Button variant="outline" size="icon" onClick={() => navigate(`/rule-editor/${rule.id}`)} title="Edit Rule" className="h-8 w-8 transition-all-300 hover:border-app-blue hover:bg-app-blue/10 hover:shadow-sm text-[#1dbf73]">
+                  <Button variant="outline" size="icon" onClick={() => navigate(`/rule-editor/${rule.id}`)} title="Edit Rule" className="h-8 w-8 transition-all-300 hover:border-app-blue hover:bg-app-blue/10 hover:shadow-sm text-app-blue">
                     <Edit2 className="h-4 w-4" />
                   </Button>
                   <Button variant="outline" size="icon" className="h-8 w-8 transition-all-300 hover:text-app-blue hover:border-app-blue hover:bg-app-blue/10 hover:shadow-sm" title="Duplicate Rule">
