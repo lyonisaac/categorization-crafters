@@ -1,69 +1,71 @@
-import React, { useState } from 'react';
-import { Table, TableBody } from '@/components/ui';
+import React, { useState, useMemo } from 'react';
+import { TableBody, Button } from '@/components/ui';
+import { Download } from 'lucide-react';
 import { mockLogs } from '@/types/log-table-types';
+import { usePagination } from '@/hooks/usePagination';
+import { formatDateWithSeconds } from '@/utils/date-utils';
+import SearchableTable from '@/components/common/SearchableTable';
 
 // Import extracted components
 import {
   LogTableHeader,
-  LogTableRow,
-  LogTablePagination,
-  LogTableSearch,
-  LogTableTitle
+  LogTableRow
 } from './LogTable/index';
 
 const LogTable: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
   
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    }).format(date);
-  };
-  
-  const filteredLogs = mockLogs.filter(log => 
-    log.ruleName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    log.outcome.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredLogs = useMemo(() => {
+    return mockLogs.filter(log => 
+      log.ruleName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      log.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      log.outcome.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm]);
+
+  const {
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    paginatedData: paginatedLogs
+  } = usePagination({
+    data: filteredLogs,
+    itemsPerPage: 5
+  });
+
+  // Create export button for header content
+  const headerContent = (
+    <Button 
+      className="bg-app-blue hover:bg-app-blue/90 text-white flex items-center gap-2 shadow-sm transition-all duration-200 hover:shadow"
+    >
+      <Download className="h-4 w-4" />
+      Export Logs
+    </Button>
   );
 
-  // Mock pagination - in a real app this would use actual pagination logic
-  const totalPages = Math.ceil(filteredLogs.length / 5);
-
   return (
-    <div className="space-y-6 animate-slide-in">
-      <LogTableTitle />
-      
-      <LogTableSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      
-      <div className="overflow-hidden rounded-lg glass-card shadow-md">
-        <Table>
-          <LogTableHeader />
-          <TableBody>
-            {filteredLogs.map((log, index) => (
-              <LogTableRow 
-                key={log.id}
-                log={log}
-                index={index}
-                formatDate={formatDate}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-      
-      <LogTablePagination 
-        currentPage={currentPage}
-        totalPages={totalPages}
-        setCurrentPage={setCurrentPage}
-      />
-    </div>
+    <SearchableTable
+      title="Action Logs"
+      searchPlaceholder="Search logs..."
+      headerContent={headerContent}
+      tableHeader={<LogTableHeader />}
+      tableBody={
+        <TableBody>
+          {paginatedLogs.map((log, index) => (
+            <LogTableRow 
+              key={log.id}
+              log={log}
+              index={index}
+              formatDate={formatDateWithSeconds}
+            />
+          ))}
+        </TableBody>
+      }
+      onSearch={setSearchTerm}
+      currentPage={currentPage}
+      totalPages={totalPages}
+      onPageChange={setCurrentPage}
+    />
   );
 };
 
