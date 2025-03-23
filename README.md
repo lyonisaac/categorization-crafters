@@ -1,6 +1,6 @@
 # Categorization Crafters
 
-A modern web application for creating and managing categorization rules using React, TypeScript, and shadcn/ui.
+A modern web application for creating and managing YNAB transaction categorization rules using React, TypeScript, and shadcn/ui. 
 
 ## Features
 
