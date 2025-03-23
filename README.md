@@ -1,16 +1,20 @@
 # Categorization Crafters
 
-A modern web application for creating and managing YNAB transaction categorization rules using React, TypeScript, and shadcn/ui. 
+A modern web application for creating and managing YNAB transaction categorization rules using React, TypeScript, and shadcn/ui.
 
-## Features
+## 📋 Project Overview
 
-- Rule creation and management with a step-by-step form
-- Interactive rule actions configuration
-- Modern UI components built with shadcn/ui
-- Real-time validation and feedback
-- Responsive design for all devices
+Categorization Crafters is a web-based tool designed to help users create and manage transaction categorization rules for YNAB (You Need A Budget). The application provides a user-friendly interface for defining complex categorization rules using a step-by-step form approach.
 
-## Tech Stack
+### Key Features
+
+- 📝 Rule Creation: Create complex categorization rules using a guided form interface
+- 🔄 Rule Management: Edit, delete, and organize categorization rules
+- 🎨 Modern UI: Built with shadcn/ui components for a consistent and professional look
+- 🔄 Real-time Validation: Immediate feedback on rule validity
+- 📱 Responsive Design: Works seamlessly across all devices
+
+## 🛠️ Tech Stack
 
 - **Framework**: React 18
 - **Type Safety**: TypeScript
@@ -24,7 +28,7 @@ A modern web application for creating and managing YNAB transaction categorizati
 - **Charts**: Recharts
 - **Theme Management**: next-themes
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -55,12 +59,15 @@ yarn dev
 
 The application will be available at `http://localhost:5173`
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 categorization-crafters/
 ├── src/
 │   ├── components/      # Reusable React components
+│   │   ├── form/        # Form-related components
+│   │   ├── ui/          # Basic UI components
+│   │   └── layout/      # Layout components
 │   ├── pages/          # Page components
 │   ├── hooks/          # Custom React hooks
 │   ├── utils/          # Utility functions
@@ -70,7 +77,7 @@ categorization-crafters/
 └── package.json        # Project dependencies and scripts
 ```
 
-## Development
+## 🛠️ Development
 
 ### Available Scripts
 
@@ -81,13 +88,100 @@ categorization-crafters/
 
 ### Development Guidelines
 
-1. All components should be TypeScript-first
-2. Use shadcn/ui components for consistent UI
-3. Follow React best practices
-4. Write descriptive commit messages
-5. Keep the codebase clean and maintainable
+1. **TypeScript First**: All components must use TypeScript
+2. **Component Consistency**: Use shadcn/ui components for UI consistency
+3. **React Best Practices**: Follow React documentation guidelines
+4. **Commit Messages**: Use conventional commits format
+5. **Code Quality**: Maintain clean and maintainable code
 
-## Contributing
+## 📚 API Documentation
+
+### Core Components
+
+- `CategorizationForm`: Main form component for creating rules
+- `RuleEditor`: Interactive rule editing interface
+- `CategoryManager`: Component for managing categories
+
+### Types
+
+```typescript
+interface CategorizationRule {
+  id: string;
+  name: string;
+  conditions: RuleCondition[];
+  actions: RuleAction[];
+  priority: number;
+  isActive: boolean;
+}
+
+interface RuleCondition {
+  type: 'amount' | 'description' | 'date' | 'category';
+  operator: string;
+  value: any;
+}
+
+interface RuleAction {
+  type: 'category' | 'flag' | 'memo';
+  value: string;
+}
+```
+
+## 📝 Usage Examples
+
+### Creating a Basic Rule
+
+```typescript
+const basicRule: CategorizationRule = {
+  id: '1',
+  name: 'Grocery Expenses',
+  conditions: [
+    {
+      type: 'description',
+      operator: 'contains',
+      value: 'grocery'
+    }
+  ],
+  actions: [
+    {
+      type: 'category',
+      value: 'Food & Dining'
+    }
+  ],
+  priority: 1,
+  isActive: true
+};
+```
+
+## 🛠️ Configuration
+
+### Environment Variables
+
+Create a `.env` file in the root directory:
+
+```
+VITE_API_URL=http://localhost:3000
+VITE_API_KEY=your-api-key
+```
+
+### Theme Configuration
+
+The application supports light and dark themes. Theme preferences are stored in localStorage.
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+1. **Form Validation Errors**
+   - Ensure all required fields are filled
+   - Check that conditions are logically valid
+   - Verify that actions are properly configured
+
+2. **Performance Issues**
+   - Clear browser cache
+   - Check for memory leaks
+   - Monitor component re-renders
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -95,6 +189,38 @@ categorization-crafters/
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## License
+## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 📢 Support
+
+For support, please:
+
+- Open an issue in the GitHub repository
+- Provide detailed error messages
+- Include relevant code snippets
+- Specify the version of the application
+
+## 🔍 Technical Details
+
+### Performance Optimization
+
+- Code splitting with React.lazy()
+- Memoization with React.memo()
+- Virtual scrolling for large lists
+- Lazy loading of images
+
+### Security Features
+
+- Input sanitization
+- XSS protection
+- CSRF protection
+- Rate limiting
+
+### Testing Strategy
+
+- Unit tests for core components
+- Integration tests for form flows
+- E2E tests for critical paths
+- Performance benchmarks
