@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { BookOpen, List, BarChart } from 'lucide-react';
@@ -25,7 +24,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="flex justify-between h-16">
               <div className="flex">
                 <div className="flex-shrink-0 flex items-center">
-                  <h1 className="text-xl font-fredoka font-semibold text-app-blue">Transaction Rules</h1>
+                  <h1 className="text-xl font-heading font-semibold text-app-blue">Transaction Rules</h1>
                 </div>
               </div>
               <nav className="hidden sm:ml-6 sm:flex sm:space-x-8">

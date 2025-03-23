@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {
   Table,
@@ -126,7 +125,7 @@ const LogTable: React.FC = () => {
   return (
     <div className="space-y-6 animate-slide-in">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">Action Logs</h2>
+        <h2 className="text-2xl font-heading font-semibold">Action Logs</h2>
         <Button 
           className="bg-app-blue hover:bg-app-blue/90 text-white flex items-center gap-2 shadow-sm transition-all duration-200 hover:shadow"
         >
