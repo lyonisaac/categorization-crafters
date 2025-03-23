@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Button, Input, Badge, Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui';
 import { Search, Plus, Edit2, Trash2, Copy, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
-import HoverCardPreview from './HoverCardPreview';
 import RuleStatus from './RuleStatus';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
@@ -190,11 +189,9 @@ const RulesTable: React.FC = () => {
                   className={`transition-all-300 hover:bg-white/70 ${index % 2 === 0 ? 'bg-white/30' : 'bg-white/10'}`}
                 >
                   <TableCell className="font-medium">
-                    <HoverCardPreview rule={rule}>
-                      <div className="flex items-center gap-1">
-                        {rule.name}
-                      </div>
-                    </HoverCardPreview>
+                    <div className="flex items-center gap-2">
+                      <div>{rule.name}</div>
+                    </div>
                   </TableCell>
                   <TableCell className="hidden md:table-cell max-w-xs" title={rule.criteria}>
                     <div className="truncate pr-4">{rule.criteria}</div>
