@@ -298,7 +298,7 @@ const RuleForm: React.FC = () => {
         type="button" 
         disabled={!isStepComplete()}
         onClick={() => setCurrentStep(prev => Math.min(4, prev + 1))}
-        className="bg-app-blue hover:bg-app-blue/90 text-white font-heading flex items-center gap-1"
+        className={`ml-2 bg-emerald-600 hover:bg-emerald-700 ${!isStepComplete() ? 'opacity-70 cursor-not-allowed bg-emerald-400 hover:bg-emerald-400' : ''}`}
       >
         Next
         <ArrowRight size={16} />
@@ -315,7 +315,7 @@ const RuleForm: React.FC = () => {
     ];
 
     return (
-      <div className="flex justify-between items-center mb-8 px-4 py-2 glass-card rounded-full">
+      <div className="flex justify-between items-center mb-8 px-6 py-2 glass-card rounded-full gap-2">
         {steps.map((step) => (
           <div 
             key={step.num} 

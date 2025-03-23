@@ -68,11 +68,18 @@ export default {
 				},
 				app: {
 					'blue': '#1e56ff', 
+					'blue-inactive': '#8a9cff',
 					'background': '#f1f6ff',
+					'white': '#ffffff',
 					'delete': '#96413e',
+					'delete-inactive': '#c8a09e',
 					'card': 'rgba(255, 255, 255, 0.9)',
 					'success': '#4db057',
+					'success-inactive': '#a6d8ab',
 					'warning': '#fbbf24',
+					'warning-inactive': '#d9c89d',
+					'muted': 'hsl(215.4 16.3% 46.9%)',
+					'muted-inactive': 'hsl(215.4 16.3% 76.9%)',
 				}
 			},
 			borderRadius: {
