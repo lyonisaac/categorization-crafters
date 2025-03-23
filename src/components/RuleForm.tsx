@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Input, Label, Card, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Badge } from '@/components/ui';
@@ -7,6 +8,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import RuleStatus from '@/components/RuleStatus';
 
 const mockRule = {
   id: '1',
@@ -543,9 +545,11 @@ const RuleForm: React.FC = () => {
                                 <SelectValue placeholder="Select type" />
                               </SelectTrigger>
                               <SelectContent>
-                                {criteriaOptions.map(option => <SelectItem key={option.value} value={option.value}>
+                                {criteriaOptions.map(option => (
+                                  <SelectItem key={option.value} value={option.value}>
                                     {option.label}
-                                  </SelectItem>)}
+                                  </SelectItem>
+                                ))}
                               </SelectContent>
                             </Select>
                           </div>
@@ -556,15 +560,18 @@ const RuleForm: React.FC = () => {
                                 <SelectValue placeholder="Select operator" />
                               </SelectTrigger>
                               <SelectContent>
-                                {(operatorOptions[criterion.type as keyof typeof operatorOptions] || []).map(option => <SelectItem key={option.value} value={option.value}>
+                                {(operatorOptions[criterion.type as keyof typeof operatorOptions] || []).map(option => (
+                                  <SelectItem key={option.value} value={option.value}>
                                     {option.label}
-                                  </SelectItem>)}
+                                  </SelectItem>
+                                ))}
                               </SelectContent>
                             </Select>
                           </div>
                           
                           <div className="sm:col-span-5">
-                            {criterion.type === 'date' ? <Popover>
+                            {criterion.type === 'date' ? (
+                              <Popover>
                                 <PopoverTrigger asChild>
                                   <Button variant="outline" className="w-full justify-start text-left font-normal glass-card">
                                     <CalendarIcon className="mr-2 h-4 w-4" />
@@ -572,17 +579,47 @@ const RuleForm: React.FC = () => {
                                   </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0 glass-card">
-                                  <Calendar mode="single" selected={criterion.value ? new Date(criterion.value) : undefined} onSelect={date => updateCriterion(criterion.id, 'value', date ? date.toISOString() : '')} initialFocus className="p-3 pointer-events-auto" />
+                                  <Calendar 
+                                    mode="single" 
+                                    selected={criterion.value ? new Date(criterion.value) : undefined} 
+                                    onSelect={date => updateCriterion(criterion.id, 'value', date ? date.toISOString() : '')} 
+                                    initialFocus 
+                                    className="p-3 pointer-events-auto" 
+                                  />
                                 </PopoverContent>
-                              </Popover> : criterion.type === 'amount' ? <div className="relative rounded-md">
+                              </Popover>
+                            ) : criterion.type === 'amount' ? (
+                              <div className="relative rounded-md">
                                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                   <span className="text-gray-500 sm:text-sm">$</span>
                                 </div>
-                                <Input type="number" value={criterion.value} onChange={e => updateCriterion(criterion.id, 'value', e.target.value)} placeholder="0.00" className="pl-7 glass-card" step="0.01" />
-                              </div> : <Input value={criterion.value} onChange={e => updateCriterion(criterion.id, 'value', e.target.value)} placeholder={`Enter ${criterion.type} value`} className="glass-card" />}
+                                <Input 
+                                  type="number" 
+                                  value={criterion.value} 
+                                  onChange={e => updateCriterion(criterion.id, 'value', e.target.value)} 
+                                  placeholder="0.00" 
+                                  className="pl-7 glass-card" 
+                                  step="0.01" 
+                                />
+                              </div>
+                            ) : (
+                              <Input 
+                                value={criterion.value} 
+                                onChange={e => updateCriterion(criterion.id, 'value', e.target.value)} 
+                                placeholder={`Enter ${criterion.type} value`} 
+                                className="glass-card" 
+                              />
+                            )}
+                          </div>
                         </div>
                         
-                        <Button type="button" variant="ghost" size="icon" onClick={() => removeCriterion(criterion.id)} className="text-gray-400 hover:text-app-delete">
+                        <Button 
+                          type="button" 
+                          variant="ghost" 
+                          size="icon" 
+                          onClick={() => removeCriterion(criterion.id)} 
+                          className="text-gray-400 hover:text-app-delete"
+                        >
                           <Trash2 size={18} />
                         </Button>
                       </div>
@@ -628,51 +665,75 @@ const RuleForm: React.FC = () => {
                                 <SelectValue placeholder="Select action type" />
                               </SelectTrigger>
                               <SelectContent>
-                                {actionOptions.map(option => <SelectItem key={option.value} value={option.value}>
+                                {actionOptions.map(option => (
+                                  <SelectItem key={option.value} value={option.value}>
                                     {option.label}
-                                  </SelectItem>)}
+                                  </SelectItem>
+                                ))}
                               </SelectContent>
                             </Select>
                           </div>
                           
                           <div className="sm:col-span-7">
-                            {action.type === 'category' ? <Select value={action.value} onValueChange={value => updateAction(action.id, 'value', value)}>
+                            {action.type === 'category' ? (
+                              <Select value={action.value} onValueChange={value => updateAction(action.id, 'value', value)}>
                                 <SelectTrigger>
                                   <SelectValue placeholder="Select category" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  {categoryOptions.map(option => <SelectItem key={option.value} value={option.value}>
+                                  {categoryOptions.map(option => (
+                                    <SelectItem key={option.value} value={option.value}>
                                       {option.label}
-                                    </SelectItem>)}
+                                    </SelectItem>
+                                  ))}
                                 </SelectContent>
-                              </Select> : action.type === 'flag' ? <Select value={action.value} onValueChange={value => updateAction(action.id, 'value', value)}>
+                              </Select>
+                            ) : action.type === 'flag' ? (
+                              <Select value={action.value} onValueChange={value => updateAction(action.id, 'value', value)}>
                                 <SelectTrigger>
                                   <SelectValue placeholder="Select flag" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  {flagOptions.map(option => <SelectItem key={option.value} value={option.value}>
+                                  {flagOptions.map(option => (
+                                    <SelectItem key={option.value} value={option.value}>
                                       {option.label}
-                                    </SelectItem>)}
+                                    </SelectItem>
+                                  ))}
                                 </SelectContent>
-                              </Select> : <Input value={action.value} onChange={e => updateAction(action.id, 'value', e.target.value)} placeholder={`Enter ${action.type === 'memo' ? 'memo text' : 'split details'}`} className="glass-card" />}
+                              </Select>
+                            ) : (
+                              <Input 
+                                value={action.value} 
+                                onChange={e => updateAction(action.id, 'value', e.target.value)} 
+                                placeholder="Enter memo text" 
+                                className="glass-card" 
+                              />
+                            )}
+                          </div>
                         </div>
+                        
+                        <Button 
+                          type="button" 
+                          variant="ghost" 
+                          size="icon" 
+                          onClick={() => removeAction(action.id)} 
+                          className="text-gray-400 hover:text-app-delete"
+                        >
+                          <Trash2 size={18} />
+                        </Button>
                       </div>
-                      
-                      <Button type="button" variant="ghost" size="icon" onClick={() => removeAction(action.id)} className="text-gray-400 hover:text-app-delete">
-                        <Trash2 size={18} />
-                      </Button>
-                    </div>
-                  ))}
-                  
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={addAction} 
-                    className="mt-2 glass-card font-fredoka hover:bg-app-success hover:text-white hover:border-app-success"
-                  >
-                    <Plus size={16} className="mr-2" />
-                    Add Action
-                  </Button>
+                    ))}
+                    
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={addAction} 
+                      className="mt-2 glass-card font-fredoka hover:bg-app-success hover:text-white hover:border-app-success"
+                    >
+                      <Plus size={16} className="mr-2" />
+                      Add Action
+                    </Button>
+                  </div>
                 </div>
               </Card>
             </div>
@@ -788,4 +849,3 @@ const RuleForm: React.FC = () => {
 };
 
 export default RuleForm;
-
