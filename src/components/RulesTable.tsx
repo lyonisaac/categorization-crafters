@@ -55,7 +55,7 @@ const RulesTable: React.FC = () => {
   const totalPages = Math.ceil(filteredRules.length / 5);
   return <div className="space-y-6 animate-slide-in">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold">Transaction Rules</h2>
+        <h2 className="text-2xl font-semibold"></h2>
         <Button className="bg-app-blue hover:bg-app-blue/90 text-white flex items-center gap-2 shadow-sm transition-all duration-200 hover:shadow" onClick={() => navigate('/rule-editor')}>
           <Plus className="h-4 w-4" />
           Create New Rule
