@@ -125,9 +125,9 @@ const RulesTable: React.FC = () => {
     <TooltipProvider>
       <div className="space-y-6 animate-slide-in">
         <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-fredoka font-semibold">Rules</h2>
+          <h2 className="text-2xl font-heading font-semibold">Rules</h2>
           <Button 
-            className="bg-app-success hover:bg-app-success/90 text-white flex items-center gap-2 shadow-sm transition-all duration-200 hover:shadow font-fredoka" 
+            className="bg-app-success hover:bg-app-success/90 text-white flex items-center gap-2 shadow-sm transition-all duration-200 hover:shadow font-heading" 
             onClick={() => navigate('/rule-editor')}
           >
             <Plus className="h-4 w-4" />
@@ -150,36 +150,36 @@ const RulesTable: React.FC = () => {
             <TableHeader className="bg-white/80 backdrop-blur-sm">
               <TableRow className="border-b border-gray-200">
                 <TableHead 
-                  className="font-fredoka font-medium cursor-pointer"
+                  className="font-heading font-medium cursor-pointer"
                   onClick={() => handleSort('name')}
                 >
                   Rule Name {getSortIcon('name')}
                 </TableHead>
                 <TableHead 
-                  className="hidden md:table-cell font-fredoka font-medium cursor-pointer"
+                  className="hidden md:table-cell font-heading font-medium cursor-pointer"
                   onClick={() => handleSort('criteria')}
                 >
                   Criteria {getSortIcon('criteria')}
                 </TableHead>
                 <TableHead 
-                  className="hidden md:table-cell font-fredoka font-medium cursor-pointer"
+                  className="hidden md:table-cell font-heading font-medium cursor-pointer"
                   onClick={() => handleSort('actions')}
                 >
                   Actions {getSortIcon('actions')}
                 </TableHead>
                 <TableHead 
-                  className="hidden sm:table-cell font-fredoka font-medium cursor-pointer w-[120px]"
+                  className="hidden sm:table-cell font-heading font-medium cursor-pointer w-[120px]"
                   onClick={() => handleSort('status')}
                 >
                   Status {getSortIcon('status')}
                 </TableHead>
                 <TableHead 
-                  className="hidden sm:table-cell font-fredoka font-medium cursor-pointer w-[180px]"
+                  className="hidden sm:table-cell font-heading font-medium cursor-pointer w-[180px]"
                   onClick={() => handleSort('lastModified')}
                 >
                   Last Modified {getSortIcon('lastModified')}
                 </TableHead>
-                <TableHead className="text-right font-fredoka font-medium w-[120px]">Options</TableHead>
+                <TableHead className="text-right font-heading font-medium w-[120px]">Options</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -188,7 +188,7 @@ const RulesTable: React.FC = () => {
                   key={rule.id} 
                   className={`transition-all-300 hover:bg-white/70 ${index % 2 === 0 ? 'bg-white/30' : 'bg-white/10'}`}
                 >
-                  <TableCell className="font-medium">
+                  <TableCell className="font-body">
                     <div className="flex items-center gap-1">
                       {rule.name}
                     </div>
@@ -244,7 +244,7 @@ const RulesTable: React.FC = () => {
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious 
-                className="transition-all hover:bg-app-blue/10 hover:text-app-blue font-fredoka" 
+                className="transition-all hover:bg-app-blue/10 hover:text-app-blue font-heading" 
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))} 
               />
             </PaginationItem>
@@ -253,7 +253,7 @@ const RulesTable: React.FC = () => {
                 <PaginationLink 
                   isActive={currentPage === i + 1} 
                   onClick={() => setCurrentPage(i + 1)} 
-                  className={`font-fredoka ${currentPage === i + 1 ? "bg-app-blue text-white hover:bg-app-blue/90" : "hover:bg-app-blue/10 hover:text-app-blue transition-all"}`}
+                  className={`font-heading ${currentPage === i + 1 ? "bg-app-blue text-white hover:bg-app-blue/90" : "hover:bg-app-blue/10 hover:text-app-blue transition-all"}`}
                 >
                   {i + 1}
                 </PaginationLink>
@@ -261,7 +261,7 @@ const RulesTable: React.FC = () => {
             ))}
             <PaginationItem>
               <PaginationNext 
-                className="transition-all hover:bg-app-blue/10 hover:text-app-blue font-fredoka" 
+                className="transition-all hover:bg-app-blue/10 hover:text-app-blue font-heading" 
                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))} 
               />
             </PaginationItem>

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Input, Label, Card, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Badge } from '@/components/ui';
@@ -280,7 +279,7 @@ const RuleForm: React.FC = () => {
       type="button" 
       variant="outline" 
       onClick={() => setCurrentStep(prev => Math.max(1, prev - 1))}
-      className="font-fredoka flex items-center gap-1"
+      className="font-heading flex items-center gap-1"
     >
       <ArrowLeft size={16} />
       Back
@@ -299,7 +298,7 @@ const RuleForm: React.FC = () => {
         type="button" 
         disabled={!isStepComplete()}
         onClick={() => setCurrentStep(prev => Math.min(4, prev + 1))}
-        className="bg-app-blue hover:bg-app-blue/90 text-white font-fredoka flex items-center gap-1"
+        className="bg-app-blue hover:bg-app-blue/90 text-white font-heading flex items-center gap-1"
       >
         Next
         <ArrowRight size={16} />
@@ -329,13 +328,13 @@ const RuleForm: React.FC = () => {
               }
             }}
           >
-            <div className={`flex items-center justify-center w-8 h-8 rounded-full text-white font-fredoka font-semibold mb-1
+            <div className={`flex items-center justify-center w-8 h-8 rounded-full text-white font-heading font-semibold mb-1
               ${currentStep === step.num ? 'bg-app-blue' : 
                 currentStep > step.num ? 'bg-app-success' : 'bg-gray-300'}`}
             >
               {currentStep > step.num ? <Check size={16} /> : step.num}
             </div>
-            <span className={`text-xs font-fredoka ${currentStep === step.num ? 'text-app-blue font-medium' : 'text-gray-500'}`}>
+            <span className={`text-xs font-heading ${currentStep === step.num ? 'text-app-blue font-medium' : 'text-gray-500'}`}>
               {step.label}
             </span>
           </div>
@@ -350,7 +349,7 @@ const RuleForm: React.FC = () => {
     
     return (
       <Card className="glass-card bg-white/30 p-4 border border-white/40 shadow-sm transition-all duration-300">
-        <h3 className="text-lg font-fredoka font-medium mb-3 flex items-center gap-2">
+        <h3 className="text-lg font-heading font-medium mb-3 flex items-center gap-2">
           <Info size={18} />
           Sample Transaction
         </h3>
@@ -358,7 +357,7 @@ const RuleForm: React.FC = () => {
         <div className="space-y-3 mb-4">
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <Label className="text-xs text-muted-foreground">Payee</Label>
+              <Label className="text-xs text-muted-foreground font-body">Payee</Label>
               <Input 
                 value={previewTransaction.payee} 
                 onChange={(e) => setPreviewTransaction({...previewTransaction, payee: e.target.value})}
@@ -366,7 +365,7 @@ const RuleForm: React.FC = () => {
               />
             </div>
             <div>
-              <Label className="text-xs text-muted-foreground">Amount</Label>
+              <Label className="text-xs text-muted-foreground font-body">Amount</Label>
               <div className="relative mt-1">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <span className="text-gray-500 sm:text-sm">$</span>
@@ -383,7 +382,7 @@ const RuleForm: React.FC = () => {
           </div>
           
           <div>
-            <Label className="text-xs text-muted-foreground">Memo</Label>
+            <Label className="text-xs text-muted-foreground font-body">Memo</Label>
             <Input 
               value={previewTransaction.memo} 
               onChange={(e) => setPreviewTransaction({...previewTransaction, memo: e.target.value})}
@@ -416,15 +415,15 @@ const RuleForm: React.FC = () => {
     <TooltipProvider>
       <form onSubmit={handleSubmit} className="space-y-8 animate-slide-in">
         <div className="flex justify-between items-center">
-          <h2 className="text-2xl font-fredoka font-semibold">
+          <h2 className="text-2xl font-heading font-semibold">
             {isEditMode ? 'Edit Rule' : 'Create New Rule'}
           </h2>
           <div className="space-x-2">
-            <Button type="button" variant="outline" onClick={() => navigate('/')} className="font-fredoka">
+            <Button type="button" variant="outline" onClick={() => navigate('/')} className="font-heading">
               Cancel
             </Button>
             {currentStep === 4 ? (
-              <Button type="submit" className="bg-app-success hover:bg-app-success/90 text-white font-fredoka">
+              <Button type="submit" className="bg-app-success hover:bg-app-success/90 text-white font-heading">
                 {isEditMode ? 'Update Rule' : 'Create Rule'}
               </Button>
             ) : null}
@@ -438,11 +437,11 @@ const RuleForm: React.FC = () => {
             <div className="lg:col-span-2">
               <Card className="glass-card">
                 <div className="p-6">
-                  <h3 className="text-lg font-fredoka font-medium mb-4">General Details</h3>
+                  <h3 className="text-lg font-heading font-medium mb-4">General Details</h3>
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="name" className="font-fredoka">Rule Name <span className="text-app-delete">*</span></Label>
+                        <Label htmlFor="name" className="font-body">Rule Name <span className="text-app-delete">*</span></Label>
                         <Input 
                           id="name" 
                           value={name} 
@@ -453,7 +452,7 @@ const RuleForm: React.FC = () => {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="description" className="font-fredoka">Description</Label>
+                        <Label htmlFor="description" className="font-body">Description</Label>
                         <Input 
                           id="description" 
                           value={description} 
@@ -463,7 +462,7 @@ const RuleForm: React.FC = () => {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="font-fredoka">Rule Status</Label>
+                        <Label className="font-body">Rule Status</Label>
                         <div className="flex space-x-4 mt-1">
                           <div 
                             className={`cursor-pointer rounded-md px-4 py-2 flex items-center gap-2 transition-all ${
@@ -474,7 +473,7 @@ const RuleForm: React.FC = () => {
                             onClick={() => setRuleStatus('active')}
                           >
                             <Check size={16} className={ruleStatus === 'active' ? 'text-app-success' : 'text-gray-400'} />
-                            <span className="font-fredoka text-sm">Active</span>
+                            <span className="font-body text-sm">Active</span>
                           </div>
                           <div 
                             className={`cursor-pointer rounded-md px-4 py-2 flex items-center gap-2 transition-all ${
@@ -485,7 +484,7 @@ const RuleForm: React.FC = () => {
                             onClick={() => setRuleStatus('inactive')}
                           >
                             <X size={16} className={ruleStatus === 'inactive' ? 'text-app-warning' : 'text-gray-400'} />
-                            <span className="font-fredoka text-sm">Inactive</span>
+                            <span className="font-body text-sm">Inactive</span>
                           </div>
                         </div>
                       </div>
@@ -506,14 +505,14 @@ const RuleForm: React.FC = () => {
               <Card className="glass-card">
                 <div className="p-6">
                   <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-fredoka font-medium">Criteria</h3>
+                    <h3 className="text-lg font-heading font-medium">Criteria</h3>
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center space-x-2">
                         <Button 
                           type="button" 
                           variant="outline" 
                           size="sm" 
-                          className={`rounded-full px-4 font-fredoka ${relationOperator === 'AND' ? 'bg-app-blue text-white hover:bg-app-blue/90' : 'hover:border-app-blue'}`} 
+                          className={`rounded-full px-4 font-heading ${relationOperator === 'AND' ? 'bg-app-blue text-white hover:bg-app-blue/90' : 'hover:border-app-blue'}`} 
                           onClick={() => setRelationOperator('AND')}
                         >
                           AND
@@ -522,7 +521,7 @@ const RuleForm: React.FC = () => {
                           type="button" 
                           variant="outline" 
                           size="sm" 
-                          className={`rounded-full px-4 font-fredoka ${relationOperator === 'OR' ? 'bg-app-blue text-white hover:bg-app-blue/90' : 'hover:border-app-blue'}`} 
+                          className={`rounded-full px-4 font-heading ${relationOperator === 'OR' ? 'bg-app-blue text-white hover:bg-app-blue/90' : 'hover:border-app-blue'}`} 
                           onClick={() => setRelationOperator('OR')}
                         >
                           OR
@@ -629,7 +628,7 @@ const RuleForm: React.FC = () => {
                       type="button" 
                       variant="outline" 
                       onClick={addCriterion} 
-                      className="mt-2 glass-card font-fredoka hover:bg-app-success hover:text-white hover:border-app-success"
+                      className="mt-2 glass-card font-heading hover:bg-app-success hover:text-white hover:border-app-success"
                     >
                       <Plus size={16} className="mr-2" />
                       Add Criterion
@@ -649,7 +648,7 @@ const RuleForm: React.FC = () => {
             <div className="lg:col-span-2">
               <Card className="glass-card">
                 <div className="p-6">
-                  <h3 className="text-lg font-fredoka font-medium mb-4">Actions</h3>
+                  <h3 className="text-lg font-heading font-medium mb-4">Actions</h3>
                   
                   <div className="space-y-4">
                     {actions.map((action, index) => (
@@ -728,7 +727,7 @@ const RuleForm: React.FC = () => {
                       type="button" 
                       variant="outline" 
                       onClick={addAction} 
-                      className="mt-2 glass-card font-fredoka hover:bg-app-success hover:text-white hover:border-app-success"
+                      className="mt-2 glass-card font-heading hover:bg-app-success hover:text-white hover:border-app-success"
                     >
                       <Plus size={16} className="mr-2" />
                       Add Action
@@ -748,24 +747,24 @@ const RuleForm: React.FC = () => {
             <div className="lg:col-span-2">
               <Card className="glass-card">
                 <div className="p-6">
-                  <h3 className="text-lg font-fredoka font-medium mb-4">Review Your Rule</h3>
+                  <h3 className="text-lg font-heading font-medium mb-4">Review Your Rule</h3>
                   
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <h4 className="font-fredoka font-medium">General Details</h4>
+                      <h4 className="font-heading font-medium">General Details</h4>
                       <div className="bg-white/40 rounded-md p-4 space-y-2">
                         <div className="flex">
-                          <span className="w-32 text-muted-foreground text-sm">Name:</span>
+                          <span className="w-32 text-muted-foreground text-sm font-body">Name:</span>
                           <span className="font-medium">{name}</span>
                         </div>
                         {description && (
                           <div className="flex">
-                            <span className="w-32 text-muted-foreground text-sm">Description:</span>
+                            <span className="w-32 text-muted-foreground text-sm font-body">Description:</span>
                             <span>{description}</span>
                           </div>
                         )}
                         <div className="flex">
-                          <span className="w-32 text-muted-foreground text-sm">Status:</span>
+                          <span className="w-32 text-muted-foreground text-sm font-body">Status:</span>
                           <span className={ruleStatus === 'active' ? 'text-app-success font-medium' : 'text-app-warning font-medium'}>
                             {ruleStatus === 'active' ? 'Active' : 'Inactive'}
                           </span>
@@ -774,14 +773,14 @@ const RuleForm: React.FC = () => {
                     </div>
                     
                     <div className="space-y-2">
-                      <h4 className="font-fredoka font-medium">Criteria</h4>
+                      <h4 className="font-heading font-medium">Criteria</h4>
                       <div className="bg-white/40 rounded-md p-4">
                         {criteria.length > 0 ? (
                           <div className="space-y-2">
                             {criteria.map((c, i) => (
                               <div key={c.id} className="flex items-center">
                                 {i > 0 && (
-                                  <span className="mx-2 px-2 py-0.5 rounded bg-app-blue/10 text-app-blue text-xs font-fredoka">
+                                  <span className="mx-2 px-2 py-0.5 rounded bg-app-blue/10 text-app-blue text-xs font-body">
                                     {relationOperator}
                                   </span>
                                 )}
@@ -796,13 +795,13 @@ const RuleForm: React.FC = () => {
                             ))}
                           </div>
                         ) : (
-                          <p className="text-muted-foreground italic text-sm">No criteria defined</p>
+                          <p className="text-muted-foreground italic text-sm font-body">No criteria defined</p>
                         )}
                       </div>
                     </div>
                     
                     <div className="space-y-2">
-                      <h4 className="font-fredoka font-medium">Actions</h4>
+                      <h4 className="font-heading font-medium">Actions</h4>
                       <div className="bg-white/40 rounded-md p-4">
                         {actions.length > 0 ? (
                           <div className="space-y-2">
@@ -817,7 +816,7 @@ const RuleForm: React.FC = () => {
                             ))}
                           </div>
                         ) : (
-                          <p className="text-muted-foreground italic text-sm">No actions defined</p>
+                          <p className="text-muted-foreground italic text-sm font-body">No actions defined</p>
                         )}
                       </div>
                     </div>
@@ -833,7 +832,7 @@ const RuleForm: React.FC = () => {
         
         <div className="flex justify-between items-center pt-2">
           {isEditMode && currentStep === 4 && (
-            <Button type="button" className="bg-app-delete hover:bg-app-delete/90 text-white font-fredoka">
+            <Button type="button" className="bg-app-delete hover:bg-app-delete/90 text-white font-heading">
               <Trash2 size={16} className="mr-2" />
               Delete Rule
             </Button>

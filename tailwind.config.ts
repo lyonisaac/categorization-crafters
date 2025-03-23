@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -20,8 +19,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				'fredoka': ['Nunito', 'sans-serif'],
-				'quicksand': ['Montserrat', 'sans-serif'],
+				'heading': ['Segoe UI', 'system-ui', 'sans-serif'],
+				'body': ['system-ui', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
