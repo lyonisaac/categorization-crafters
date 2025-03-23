@@ -7,7 +7,9 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 const RuleEditor: React.FC = () => {
   return (
     <Layout>
-      <RuleForm />
+      <TooltipProvider>
+        <RuleForm />
+      </TooltipProvider>
     </Layout>
   );
 };

@@ -6,42 +6,41 @@ import HoverCardPreview from './HoverCardPreview';
 import RuleStatus from './RuleStatus';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
-// Mock data for demonstration with status added
 const mockRules = [{
   id: '1',
   name: 'Grocery Stores',
   criteria: 'Payee contains "Kroger", "Walmart", or "Trader Joe\'s"',
   actions: 'Assign to category: Groceries',
   lastModified: '2023-10-15T14:30:00Z',
-  status: 'active'
+  status: 'active' as const
 }, {
   id: '2',
   name: 'Utilities',
   criteria: 'Payee contains "Electric" or "Water"',
   actions: 'Assign to category: Utilities',
   lastModified: '2023-10-14T10:15:00Z',
-  status: 'active'
+  status: 'active' as const
 }, {
   id: '3',
   name: 'Coffee Shops',
   criteria: 'Payee contains "Starbucks" or "Dunkin"',
   actions: 'Assign to category: Dining Out',
   lastModified: '2023-10-13T08:45:00Z',
-  status: 'inactive'
+  status: 'inactive' as const
 }, {
   id: '4',
   name: 'Salary',
   criteria: 'Payee contains "Employer" and Amount > 1000',
   actions: 'Assign to category: Income, Add flag: Income',
   lastModified: '2023-10-12T16:20:00Z',
-  status: 'active'
+  status: 'active' as const
 }, {
   id: '5',
   name: 'Subscriptions',
   criteria: 'Payee contains "Netflix" or "Spotify"',
   actions: 'Assign to category: Subscriptions',
   lastModified: '2023-10-11T12:00:00Z',
-  status: 'pending'
+  status: 'pending' as const
 }];
 
 type SortField = 'name' | 'criteria' | 'actions' | 'lastModified' | 'status';
@@ -170,18 +169,18 @@ const RulesTable: React.FC = () => {
                   Actions {getSortIcon('actions')}
                 </TableHead>
                 <TableHead 
-                  className="hidden sm:table-cell font-fredoka font-medium cursor-pointer"
+                  className="hidden sm:table-cell font-fredoka font-medium cursor-pointer w-[120px]"
                   onClick={() => handleSort('status')}
                 >
                   Status {getSortIcon('status')}
                 </TableHead>
                 <TableHead 
-                  className="hidden sm:table-cell font-fredoka font-medium cursor-pointer"
+                  className="hidden sm:table-cell font-fredoka font-medium cursor-pointer w-[180px]"
                   onClick={() => handleSort('lastModified')}
                 >
                   Last Modified {getSortIcon('lastModified')}
                 </TableHead>
-                <TableHead className="text-right font-fredoka font-medium">Options</TableHead>
+                <TableHead className="text-right font-fredoka font-medium w-[120px]">Options</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -197,44 +196,46 @@ const RulesTable: React.FC = () => {
                       </div>
                     </HoverCardPreview>
                   </TableCell>
-                  <TableCell className="hidden md:table-cell max-w-xs truncate" title={rule.criteria}>
-                    {rule.criteria}
+                  <TableCell className="hidden md:table-cell max-w-xs" title={rule.criteria}>
+                    <div className="truncate pr-4">{rule.criteria}</div>
                   </TableCell>
-                  <TableCell className="hidden md:table-cell max-w-xs truncate" title={rule.actions}>
-                    {rule.actions}
+                  <TableCell className="hidden md:table-cell max-w-xs" title={rule.actions}>
+                    <div className="truncate pr-4">{rule.actions}</div>
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     <RuleStatus status={rule.status as 'active' | 'inactive' | 'pending'} showLabel={true} />
                   </TableCell>
-                  <TableCell className="hidden sm:table-cell text-muted-foreground text-sm">
+                  <TableCell className="hidden sm:table-cell text-muted-foreground text-sm whitespace-nowrap">
                     {formatDate(rule.lastModified)}
                   </TableCell>
-                  <TableCell className="text-right space-x-2">
-                    <Button 
-                      variant="outline" 
-                      size="icon" 
-                      onClick={() => navigate(`/rule-editor/${rule.id}`)} 
-                      title="Edit Rule" 
-                      className="h-8 w-8 transition-all-300 hover:text-app-blue hover:border-app-blue hover:bg-app-blue/10 hover:shadow-sm"
-                    >
-                      <Edit2 className="h-4 w-4" />
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="icon" 
-                      className="h-8 w-8 transition-all-300 hover:text-app-blue hover:border-app-blue hover:bg-app-blue/10 hover:shadow-sm" 
-                      title="Duplicate Rule"
-                    >
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="icon" 
-                      className="h-8 w-8 transition-all-300 hover:text-app-delete hover:border-app-delete hover:bg-app-delete/10" 
-                      title="Delete Rule"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                  <TableCell className="text-right space-x-1 p-2">
+                    <div className="flex gap-1 justify-end">
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        onClick={() => navigate(`/rule-editor/${rule.id}`)} 
+                        title="Edit Rule" 
+                        className="h-8 w-8 transition-all-300 hover:text-app-blue hover:border-app-blue hover:bg-app-blue/10 hover:shadow-sm"
+                      >
+                        <Edit2 className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        className="h-8 w-8 transition-all-300 hover:text-app-blue hover:border-app-blue hover:bg-app-blue/10 hover:shadow-sm" 
+                        title="Duplicate Rule"
+                      >
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        className="h-8 w-8 transition-all-300 hover:text-app-delete hover:border-app-delete hover:bg-app-delete/10" 
+                        title="Delete Rule"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
