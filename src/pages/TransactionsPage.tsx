@@ -5,8 +5,8 @@ export function TransactionsPage() {
   return (
     <div className="container mx-auto py-6 space-y-6">
       <PageHeader
-        heading="Transactions"
-        subheading="View and manage your YNAB transactions"
+        title="Transactions"
+        description="View and manage your YNAB transactions"
       />
       <TransactionSync />
     </div>

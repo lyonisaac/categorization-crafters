@@ -10,6 +10,7 @@ import { useRules } from '@/hooks/useRules';
 import { RuleTester } from '@/components/RuleTester';
 import { RuleStatus } from '@/components/RuleStatus';
 import { getStatusBadgeClass } from '@/utils/rule-sort-utils';
+import { PageHeader } from '@/components/ui/page-header';
 import type { Rule } from '@/types/rule-types';
 
 export function RuleDetailPage() {
@@ -63,27 +64,26 @@ export function RuleDetailPage() {
   
   return (
     <div className="container mx-auto py-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon" onClick={() => navigate('/rules')}>
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <h1 className="text-2xl font-bold">{rule.name}</h1>
-          <Badge className={getStatusBadgeClass(rule.status || 'active')}>
-            {rule.status}
-          </Badge>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" onClick={() => navigate(`/rules/${id}/edit`)}>
-            <Edit className="h-4 w-4 mr-2" />
-            Edit
-          </Button>
-          <Button variant="destructive" onClick={handleDelete}>
-            <Trash className="h-4 w-4 mr-2" />
-            Delete
-          </Button>
-        </div>
-      </div>
+      <PageHeader
+        title={rule.name}
+        description={rule.description || 'No description provided'}
+        actions={
+          <div className="flex items-center gap-2">
+            <Button variant="outline" onClick={() => navigate('/rules')}>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+            <Button variant="outline" onClick={() => navigate(`/rules/${id}/edit`)}>
+              <Edit className="h-4 w-4 mr-2" />
+              Edit
+            </Button>
+            <Button variant="destructive" onClick={handleDelete}>
+              <Trash className="h-4 w-4 mr-2" />
+              Delete
+            </Button>
+          </div>
+        }
+      />
       
       <Separator />
       
