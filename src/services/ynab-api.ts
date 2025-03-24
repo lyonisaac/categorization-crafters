@@ -22,6 +22,66 @@ export type YnabBudget = {
   last_month: string;
 };
 
+// YNAB Account type
+export type YnabAccount = {
+  id: string;
+  name: string;
+  type: string;
+  on_budget: boolean;
+  closed: boolean;
+  balance: number;
+  cleared_balance: number;
+  uncleared_balance: number;
+  transfer_payee_id: string;
+  deleted: boolean;
+};
+
+// YNAB Payee type
+export type YnabPayee = {
+  id: string;
+  name: string;
+  transfer_account_id: string | null;
+  deleted: boolean;
+};
+
+// YNAB Transaction type
+export type YnabTransaction = {
+  id: string;
+  date: string;
+  amount: number;
+  memo: string | null;
+  cleared: string;
+  approved: boolean;
+  flag_color: string | null;
+  account_id: string;
+  account_name?: string;
+  payee_id: string | null;
+  payee_name: string | null;
+  category_id: string | null;
+  category_name: string | null;
+  transfer_account_id: string | null;
+  transfer_transaction_id: string | null;
+  matched_transaction_id: string | null;
+  import_id: string | null;
+  deleted: boolean;
+  subtransactions: YnabSubTransaction[];
+};
+
+// YNAB SubTransaction type
+export type YnabSubTransaction = {
+  id: string;
+  transaction_id: string;
+  amount: number;
+  memo: string | null;
+  payee_id: string | null;
+  payee_name: string | null;
+  category_id: string | null;
+  category_name: string | null;
+  transfer_account_id: string | null;
+  transfer_transaction_id: string | null;
+  deleted: boolean;
+};
+
 // YNAB API service
 export const ynabApi = {
   // Get all YNAB connections for the current user
@@ -232,6 +292,170 @@ export const ynabApi = {
       return { data: categories, error: null };
     } catch (error) {
       console.error(`Error fetching categories for budget ${budgetId}:`, error);
+      return { data: null, error: error as Error };
+    }
+  },
+
+  // Get all accounts for a specific budget
+  async getAccounts(budgetId: string, apiKey: string): Promise<ApiResponse<YnabAccount[]>> {
+    try {
+      const response = await fetch(`https://api.youneedabudget.com/v1/budgets/${budgetId}/accounts`, {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch accounts: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return { data: data.data.accounts, error: null };
+    } catch (error) {
+      console.error(`Error fetching accounts for budget ${budgetId}:`, error);
+      return { data: null, error: error as Error };
+    }
+  },
+
+  // Get all payees for a specific budget
+  async getPayees(budgetId: string, apiKey: string): Promise<ApiResponse<YnabPayee[]>> {
+    try {
+      const response = await fetch(`https://api.youneedabudget.com/v1/budgets/${budgetId}/payees`, {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch payees: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return { data: data.data.payees, error: null };
+    } catch (error) {
+      console.error(`Error fetching payees for budget ${budgetId}:`, error);
+      return { data: null, error: error as Error };
+    }
+  },
+
+  // Get transactions for a specific budget
+  async getTransactions(
+    budgetId: string, 
+    apiKey: string, 
+    options?: { 
+      sinceDate?: string; 
+      accountId?: string;
+      categoryId?: string;
+      payeeId?: string;
+    }
+  ): Promise<ApiResponse<YnabTransaction[]>> {
+    try {
+      let url = `https://api.youneedabudget.com/v1/budgets/${budgetId}/transactions`;
+      
+      // Add query parameters if provided
+      const params = new URLSearchParams();
+      if (options?.sinceDate) params.append('since_date', options.sinceDate);
+      
+      if (params.toString()) {
+        url += `?${params.toString()}`;
+      }
+      
+      // Make the API request
+      const response = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch transactions: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      const transactions = data.data.transactions;
+      
+      // If account ID is provided, filter transactions by account
+      if (options?.accountId) {
+        return { 
+          data: transactions.filter((t: YnabTransaction) => t.account_id === options.accountId),
+          error: null 
+        };
+      }
+      
+      // If category ID is provided, filter transactions by category
+      if (options?.categoryId) {
+        return { 
+          data: transactions.filter((t: YnabTransaction) => t.category_id === options.categoryId),
+          error: null 
+        };
+      }
+      
+      // If payee ID is provided, filter transactions by payee
+      if (options?.payeeId) {
+        return { 
+          data: transactions.filter((t: YnabTransaction) => t.payee_id === options.payeeId),
+          error: null 
+        };
+      }
+      
+      return { data: transactions, error: null };
+    } catch (error) {
+      console.error(`Error fetching transactions for budget ${budgetId}:`, error);
+      return { data: null, error: error as Error };
+    }
+  },
+
+  // Get a single transaction by ID
+  async getTransaction(budgetId: string, transactionId: string, apiKey: string): Promise<ApiResponse<YnabTransaction>> {
+    try {
+      const response = await fetch(`https://api.youneedabudget.com/v1/budgets/${budgetId}/transactions/${transactionId}`, {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch transaction: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return { data: data.data.transaction, error: null };
+    } catch (error) {
+      console.error(`Error fetching transaction ${transactionId}:`, error);
+      return { data: null, error: error as Error };
+    }
+  },
+
+  // Sync budget data (categories, accounts, payees) for a specific budget
+  async syncBudgetData(budgetId: string, apiKey: string): Promise<ApiResponse<boolean>> {
+    try {
+      // Get the current user
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError) throw userError;
+      const userId = userData.user?.id;
+
+      // Sync categories
+      await this.getCategories(budgetId, apiKey);
+      
+      // Get accounts and payees (we don't store these in the database yet, but we could in the future)
+      await this.getAccounts(budgetId, apiKey);
+      await this.getPayees(budgetId, apiKey);
+      
+      // Update last sync timestamp
+      const { error: updateError } = await supabase
+        .from('ynab_connections')
+        .update({ 
+          last_sync: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+        .eq('budget_id', budgetId)
+        .eq('user_id', userId);
+        
+      if (updateError) throw updateError;
+
+      return { data: true, error: null };
+    } catch (error) {
+      console.error(`Error syncing budget data for ${budgetId}:`, error);
       return { data: null, error: error as Error };
     }
   }

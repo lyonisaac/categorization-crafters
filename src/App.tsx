@@ -17,6 +17,7 @@ import Profile from "./pages/Profile";
 import TransactionPreviewPage from "./pages/TransactionPreview";
 import RuleExecutionsPage from "./pages/RuleExecutions";
 import CategoryMappingPage from "./pages/CategoryMapping";
+import TransactionsPage from "./pages/TransactionsPage";
 import ErrorBoundary from './components/ErrorBoundary';
 
 const queryClient = new QueryClient();
@@ -63,6 +64,11 @@ function App() {
                   <Route path="/transaction-preview" element={
                     <ProtectedRoute>
                       <TransactionPreviewPage />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/transactions" element={
+                    <ProtectedRoute>
+                      <TransactionsPage />
                     </ProtectedRoute>
                   } />
                   <Route path="/rule-executions" element={
