@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { useTheme } from '@/lib/theme-context';
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,7 @@ export function ProfileForm() {
   const [loadingProfile, setLoadingProfile] = useState(true);
 
   // Load user profile data
-  useState(() => {
+  useEffect(() => {
     const loadProfile = async () => {
       if (!user) return;
       

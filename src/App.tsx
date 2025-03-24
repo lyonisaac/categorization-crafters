@@ -17,73 +17,78 @@ import Profile from "./pages/Profile";
 import TransactionPreviewPage from "./pages/TransactionPreview";
 import RuleExecutionsPage from "./pages/RuleExecutions";
 import CategoryMappingPage from "./pages/CategoryMapping";
+import ErrorBoundary from './components/ErrorBoundary';
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <ThemeProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/login" element={<LoginForm />} />
-              <Route path="/register" element={<RegisterForm />} />
-              {/* Protected routes */}
-              <Route path="/" element={
-                <ProtectedRoute>
-                  <Index />
-                </ProtectedRoute>
-              } />
-              <Route path="/rule-editor" element={
-                <ProtectedRoute>
-                  <RuleEditor />
-                </ProtectedRoute>
-              } />
-              <Route path="/rule-editor/:id" element={
-                <ProtectedRoute>
-                  <RuleEditor />
-                </ProtectedRoute>
-              } />
-              <Route path="/logs" element={
-                <ProtectedRoute>
-                  <Logs />
-                </ProtectedRoute>
-              } />
-              <Route path="/profile" element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              } />
-              <Route path="/transaction-preview" element={
-                <ProtectedRoute>
-                  <TransactionPreviewPage />
-                </ProtectedRoute>
-              } />
-              <Route path="/rule-executions" element={
-                <ProtectedRoute>
-                  <RuleExecutionsPage />
-                </ProtectedRoute>
-              } />
-              <Route path="/category-mapping" element={
-                <ProtectedRoute>
-                  <CategoryMappingPage />
-                </ProtectedRoute>
-              } />
-              <Route path="/ynab-settings" element={
-                <ProtectedRoute>
-                  <YnabSettings />
-                </ProtectedRoute>
-              } />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </ThemeProvider>
-    </AuthProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <ThemeProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <ErrorBoundary>
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/login" element={<LoginForm />} />
+                  <Route path="/register" element={<RegisterForm />} />
+                  {/* Protected routes */}
+                  <Route path="/" element={
+                    <ProtectedRoute>
+                      <Index />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/rule-editor" element={
+                    <ProtectedRoute>
+                      <RuleEditor />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/rule-editor/:id" element={
+                    <ProtectedRoute>
+                      <RuleEditor />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/logs" element={
+                    <ProtectedRoute>
+                      <Logs />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/profile" element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/transaction-preview" element={
+                    <ProtectedRoute>
+                      <TransactionPreviewPage />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/rule-executions" element={
+                    <ProtectedRoute>
+                      <RuleExecutionsPage />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/category-mapping" element={
+                    <ProtectedRoute>
+                      <CategoryMappingPage />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/ynab-settings" element={
+                    <ProtectedRoute>
+                      <YnabSettings />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </ErrorBoundary>
+          </TooltipProvider>
+        </ThemeProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;
