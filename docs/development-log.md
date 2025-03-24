@@ -66,6 +66,7 @@
 - Added rule execution tracking functionality
 - Implemented category mapping system
 - Added support for custom category groups
+- Updated navigation to include all features
 
 #### Rule Management
 - Enhanced rule editor interface

@@ -10,40 +10,53 @@ The Categorization Crafters application follows a modular component architecture
 src/
 ├── components/
 │   ├── form/
-│   │   ├── CategorizationForm.tsx
-│   │   ├── RuleEditor.tsx
-│   │   └── ConditionBuilder.tsx
-│   ├── ui/
-│   │   ├── Button.tsx
-│   │   ├── Card.tsx
-│   │   └── Input.tsx
-│   └── layout/
-│       ├── Header.tsx
-│       └── Sidebar.tsx
+│   │   ├── RuleForm/
+│   │   │   ├── RuleForm.tsx
+│   │   │   ├── RuleCriteriaForm.tsx
+│   │   │   └── RuleFormNavigation.tsx
+│   ├── layout/
+│   │   └── Layout.tsx
+│   ├── profile/
+│   │   └── ProfileForm.tsx
+│   ├── TransactionPreview/
+│   │   └── TransactionPreview.tsx
+│   ├── RuleExecutions/
+│   │   └── RuleExecutionTracker.tsx
+│   ├── CategoryMapping/
+│   │   └── CategoryMapper.tsx
+│   └── ui/
+│       ├── Button.tsx
+│       ├── Card.tsx
+│       └── Input.tsx
 ├── pages/
 │   ├── Home.tsx
-│   └── Rules.tsx
+│   ├── RuleEditor.tsx
+│   ├── Profile.tsx
+│   ├── TransactionPreview.tsx
+│   ├── RuleExecutions.tsx
+│   ├── CategoryMapping.tsx
+│   └── YnabSettings.tsx
 └── hooks/
-    ├── useCategorization.ts
-    └── useFormState.ts
+    ├── useAuth.ts
+    ├── useTheme.ts
+    └── useCategorization.ts
 ```
 
 ## Key Patterns
 
 ### 1. Composition over Inheritance
 
-Components are built using composition rather than inheritance. For example, the `CategorizationForm` composes multiple smaller components:
+Components are built using composition rather than inheritance. For example, the `Layout` component composes multiple smaller components:
 
 ```tsx
-// CategorizationForm.tsx
-const CategorizationForm = () => {
+// Layout.tsx
+const Layout = ({ children }) => {
   return (
-    <Card>
-      <FormHeader />
-      <RuleEditor />
-      <ConditionBuilder />
-      <ActionBuilder />
-    </Card>
+    <div>
+      <Header />
+      <main>{children}</main>
+      <MobileFooter />
+    </div>
   );
 };
 ```
@@ -54,7 +67,7 @@ Components are organized following atomic design principles:
 
 - **Atoms**: Basic UI components (Button, Input, etc.)
 - **Molecules**: Combinations of atoms (Form controls, etc.)
-- **Organisms**: Complex components (CategorizationForm, RuleEditor)
+- **Organisms**: Complex components (RuleForm, CategoryMapper)
 - **Templates**: Page layouts
 - **Pages**: Complete page components
 
@@ -63,28 +76,30 @@ Components are organized following atomic design principles:
 State is managed using a combination of:
 
 - React Context for global state
+  - AuthContext for user authentication
+  - ThemeContext for theme preferences
 - TanStack Query for data fetching
 - Use of custom hooks for complex state logic
 
 ```tsx
 // Example of state management
-const useCategorization = () => {
-  const [rules, setRules] = useState<CategorizationRule[]>([]);
-  const { data: categories } = useQuery({
-    queryKey: ['categories'],
-    queryFn: fetchCategories
-  });
-
-  return {
-    rules,
-    categories,
-    addRule: (rule: CategorizationRule) => setRules([...rules, rule]),
-    updateRule: (id: string, updates: Partial<CategorizationRule>) => {
-      setRules(rules.map(rule => 
-        rule.id === id ? { ...rule, ...updates } : rule
-      ));
-    }
+const useTheme = () => {
+  const [theme, setTheme] = useState<Theme>('system');
+  
+  const updateTheme = async (newTheme: Theme) => {
+    setTheme(newTheme);
+    // Save to localStorage and database
+    localStorage.setItem('theme', newTheme);
+    await supabase
+      .from('user_preferences')
+      .upsert({
+        user_id: userId,
+        theme: newTheme,
+        updated_at: new Date().toISOString()
+      });
   };
+
+  return { theme, updateTheme };
 };
 ```
 
@@ -99,39 +114,57 @@ const useCategorization = () => {
 
 ### 2. Rule Processing Flow
 
-1. Rules are loaded from storage
-2. Conditions are parsed and validated
-3. Actions are prepared for execution
-4. Results are displayed to the user
+1. Rules are defined in the RuleEditor
+2. Rules are stored in Supabase
+3. Rules are executed against transactions
+4. Results are tracked in the rule_executions table
+5. Visualizations are generated from execution data
 
-## Best Practices
+### 3. Theme Management Flow
 
-1. **Component Reusability**
-   - Keep components focused and single-purpose
-   - Use props for customization
-   - Document component usage
+1. Theme preference is loaded from localStorage
+2. Theme is synchronized with database
+3. Theme changes are reflected across all components
+4. Theme updates are persisted between sessions
 
-2. **State Management**
-   - Keep local state minimal
-   - Use context for global state
-   - Implement proper error boundaries
+## Navigation Structure
 
-3. **Performance**
-   - Use memoization for expensive calculations
-   - Implement proper cleanup in effects
-   - Optimize rendering with keys and shouldComponentUpdate
+The application uses a consistent navigation structure:
 
-## Future Considerations
+- Top navigation bar (desktop)
+- Bottom navigation bar (mobile)
+- Protected routes for authenticated content
+- Consistent layout across all pages
+- Responsive design for all screen sizes
 
-1. **Component Library**
-   - Consider extracting reusable components into a separate library
-   - Standardize component props and styling
+## Component Responsibilities
 
-2. **State Management**
-   - Evaluate centralized state management solutions
-   - Implement state persistence strategies
+### Layout Components
+- Manages overall page structure
+- Handles navigation
+- Provides consistent styling
+- Manages responsive behavior
 
-3. **Testing**
-   - Add component-level tests
-   - Implement integration tests
-   - Add performance benchmarks
+### Form Components
+- Handles user input
+- Validates data
+- Manages form state
+- Submits data to backend
+
+### Data Display Components
+- Visualizes transaction data
+- Shows rule execution history
+- Displays category mappings
+- Provides data insights
+
+### Authentication Components
+- Manages user sessions
+- Handles login/logout
+- Protects routes
+- Manages API key storage
+
+### Theme Components
+- Manages theme preferences
+- Applies theme changes
+- Syncs theme across devices
+- Provides theme switching UI
