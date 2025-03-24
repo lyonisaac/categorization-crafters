@@ -22,23 +22,35 @@ export function ProfileForm() {
       if (!user) return;
       
       setLoadingProfile(true);
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single();
-        
-      if (error) {
-        toast({
-          title: 'Error loading profile',
-          description: error.message,
-          variant: 'destructive',
-        });
-      } else if (data) {
-        setName(data.full_name || '');
+      try {
+        console.log('Fetching profile for user ID:', user.id);
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+          
+        if (error) {
+          console.error('Error fetching profile:', error);
+          toast({
+            title: 'Error loading profile',
+            description: error.message,
+            variant: 'destructive',
+          });
+          
+          // If profile doesn't exist yet, we'll create it when saving
+          if (error.code === 'PGRST116') { // No rows returned
+            console.log('No profile found, will create on save');
+          }
+        } else if (data) {
+          console.log('Profile data loaded:', data);
+          setName(data.full_name || '');
+        }
+      } catch (err) {
+        console.error('Profile loading error:', err);
+      } finally {
+        setLoadingProfile(false);
       }
-      
-      setLoadingProfile(false);
     };
     
     loadProfile();
@@ -50,28 +62,35 @@ export function ProfileForm() {
     
     setLoading(true);
     
-    const { error } = await supabase
-      .from('profiles')
-      .upsert({
-        id: user.id,
-        full_name: name,
-        updated_at: new Date().toISOString(),
-      }, { onConflict: 'id' });
-      
-    if (error) {
-      toast({
-        title: 'Error updating profile',
-        description: error.message,
-        variant: 'destructive',
-      });
-    } else {
-      toast({
-        title: 'Profile updated',
-        description: 'Your profile has been updated successfully.',
-      });
+    try {
+      console.log('Updating profile for user ID:', user.id);
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          full_name: name,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: 'id' });
+        
+      if (error) {
+        console.error('Error updating profile:', error);
+        toast({
+          title: 'Error updating profile',
+          description: error.message,
+          variant: 'destructive',
+        });
+      } else {
+        console.log('Profile updated successfully');
+        toast({
+          title: 'Profile updated',
+          description: 'Your profile has been updated successfully.',
+        });
+      }
+    } catch (err) {
+      console.error('Profile update error:', err);
+    } finally {
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   return (

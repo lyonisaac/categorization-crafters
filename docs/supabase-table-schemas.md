@@ -7,6 +7,28 @@ This document outlines the complete database schema for the Categorization Craft
 ### Users Table
 Automatically created and managed by Supabase Auth.
 
+### Profiles
+
+```sql
+CREATE TABLE public.profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users(id),
+  full_name TEXT,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(id)
+);
+
+-- Add RLS policies
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view their own profile" ON public.profiles
+  FOR SELECT
+  USING (auth.uid() = id);
+
+CREATE POLICY "Users can update their own profile" ON public.profiles
+  FOR UPDATE
+  USING (auth.uid() = id);
+```
+
 ### YNAB Connections
 
 ```sql
@@ -198,6 +220,7 @@ ALTER TABLE public.transaction_previews ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.rule_executions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.user_preferences ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ```
 
 ### RLS Policies for YNAB Connections
@@ -373,3 +396,15 @@ CREATE POLICY "Allow insert on audit_logs" ON public.audit_logs
   WITH CHECK (user_id = auth.uid());
 
 -- No update or delete policies for audit logs to maintain integrity
+```
+
+### RLS Policies for Profiles
+
+```sql
+CREATE POLICY "Users can view their own profile" ON public.profiles
+  FOR SELECT
+  USING (auth.uid() = id);
+
+CREATE POLICY "Users can update their own profile" ON public.profiles
+  FOR UPDATE
+  USING (auth.uid() = id);
