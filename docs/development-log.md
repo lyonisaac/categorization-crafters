@@ -59,22 +59,32 @@
 - Integrated user preference storage in Supabase
 - Added profile editing capabilities
 
-### Milestone 3: Core Features (In Progress)
-#### Transaction Management
-- Implemented transaction preview component
-- Created transaction preview page
-- Added rule execution tracking functionality
-- Implemented category mapping system
-- Added support for custom category groups
-- Updated navigation to include all features
+### Current Focus (2025-03-23)
 
-#### Rule Management
-- Enhanced rule editor interface
-- Added support for complex rule conditions
-- Implemented rule execution history tracking
-- Created visualizations for rule performance
+#### Milestone 3: YNAB Data Fetching and Synchronization (In Progress)
+- **Current Priority**: Implementing core YNAB data integration
+- **Next Tasks**:
+  - Implement budget retrieval
+  - Create transaction fetching functionality
+  - Set up category data synchronization
+  - Implement account data retrieval
+  - Add payee information fetching
 
-### Milestone 4: Profile Page Implementation (Completed)
+### Upcoming Milestones
+
+#### Milestone 4: Categorization Rules Engine (Planned)
+- Rule Storage System
+- Rule Processing Engine
+- Rule Versioning
+- Rule Import/Export
+- Rule Sharing
+
+#### Milestone 5: Rule Processing Engine (Planned)
+- Rule Evaluation Engine
+- Condition Matching Logic
+- Action Execution System
+
+### Milestone 6: Profile Page Implementation (Completed)
 #### Profile Page Implementation
 
 Successfully implemented the profile page functionality with the following key features:
@@ -105,19 +115,28 @@ Successfully implemented the profile page functionality with the following key f
 2. Add account deletion process
 3. Enhance profile validation rules
 4. Add profile image upload capability
-5. Complete Milestone 3: Core Features
-   - Finalize rule execution engine
-   - Implement batch processing for transactions
-   - Add rule import/export functionality
-   - Create rule templates for common scenarios
-
-6. Begin Milestone 5: User Interface
+5. Complete Milestone 3: YNAB Data Fetching and Synchronization
+   - Finalize budget retrieval
+   - Implement transaction fetching functionality
+   - Set up category data synchronization
+   - Implement account data retrieval
+   - Add payee information fetching
+6. Begin Milestone 4: Categorization Rules Engine
+   - Implement Rule Storage System
+   - Develop Rule Processing Engine
+   - Implement Rule Versioning
+   - Add Rule Import/Export functionality
+   - Implement Rule Sharing
+7. Begin Milestone 5: Rule Processing Engine
+   - Develop Rule Evaluation Engine
+   - Implement Condition Matching Logic
+   - Create Action Execution System
+8. Begin Milestone 6: User Interface
    - Create responsive dashboard layout
    - Enhance data visualization components
    - Implement guided setup wizard
    - Add keyboard shortcuts for power users
-
-7. Begin Milestone 6: Performance and Optimization
+9. Begin Milestone 7: Performance and Optimization
    - Implement caching for frequently accessed data
    - Optimize database queries
    - Add pagination for large datasets
