@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { BookOpen, List, BarChart } from 'lucide-react';
+import { BookOpen, List, BarChart, User, Clock, MapPin, Settings } from 'lucide-react';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
 interface LayoutProps {
@@ -14,6 +14,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { name: 'Rules', path: '/', icon: <List className="w-5 h-5" /> },
     { name: 'Rule Editor', path: '/rule-editor', icon: <BookOpen className="w-5 h-5" /> },
     { name: 'Logs', path: '/logs', icon: <BarChart className="w-5 h-5" /> },
+    { name: 'Profile', path: '/profile', icon: <User className="w-5 h-5" /> },
+    { name: 'Transaction Preview', path: '/transaction-preview', icon: <Clock className="w-5 h-5" /> },
+    { name: 'Rule Executions', path: '/rule-executions', icon: <MapPin className="w-5 h-5" /> },
+    { name: 'Category Mapping', path: '/category-mapping', icon: <Settings className="w-5 h-5" /> },
+    { name: 'YNAB Settings', path: '/ynab-settings', icon: <Settings className="w-5 h-5" /> }
   ];
 
   return (
