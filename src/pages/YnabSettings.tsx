@@ -1,5 +1,5 @@
 // src/pages/YnabSettings.tsx
-import { Layout } from '@/components/Layout';
+import Layout from '@/components/Layout';
 import { ApiKeyManager } from '@/components/ynab/ApiKeyManager';
 
 export default function YnabSettings() {
