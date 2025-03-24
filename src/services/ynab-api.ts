@@ -13,6 +13,15 @@ export type YnabConnection = Database['public']['Tables']['ynab_connections']['R
 // YNAB Category type
 export type YnabCategory = Database['public']['Tables']['ynab_categories']['Row'];
 
+// YNAB Budget type
+export type YnabBudget = {
+  id: string;
+  name: string;
+  last_modified_on: string;
+  first_month: string;
+  last_month: string;
+};
+
 // YNAB API service
 export const ynabApi = {
   // Get all YNAB connections for the current user
@@ -50,9 +59,15 @@ export const ynabApi = {
     }
   },
 
-  // Create a new YNAB connection
-  async createConnection(connection: Omit<YnabConnection, 'id' | 'user_id' | 'created_at' | 'updated_at'>): Promise<ApiResponse<YnabConnection>> {
+  // Create a new YNAB connection with API key
+  async createConnection(apiKey: string, budgetId: string): Promise<ApiResponse<YnabConnection>> {
     try {
+      // Validate the API key by making a test request to YNAB
+      const isValid = await this.validateApiKey(apiKey);
+      if (!isValid) {
+        throw new Error('Invalid YNAB API key');
+      }
+
       const { data: userData, error: userError } = await supabase.auth.getUser();
       if (userError) throw userError;
 
@@ -60,11 +75,9 @@ export const ynabApi = {
         .from('ynab_connections')
         .insert({
           user_id: userData.user?.id,
-          budget_id: connection.budget_id,
-          access_token: connection.access_token,
-          refresh_token: connection.refresh_token,
-          token_expires_at: connection.token_expires_at,
-          last_sync: connection.last_sync || new Date().toISOString()
+          budget_id: budgetId,
+          access_token: apiKey, // Store API key in access_token field
+          last_sync: new Date().toISOString()
         })
         .select()
         .single();
@@ -79,12 +92,22 @@ export const ynabApi = {
   },
 
   // Update an existing YNAB connection
-  async updateConnection(id: string, connection: Partial<Omit<YnabConnection, 'id' | 'user_id' | 'created_at'>>): Promise<ApiResponse<YnabConnection>> {
+  async updateConnection(id: string, apiKey?: string, budgetId?: string): Promise<ApiResponse<YnabConnection>> {
     try {
-      const updateData = {
-        ...connection,
+      // If API key is provided, validate it
+      if (apiKey) {
+        const isValid = await this.validateApiKey(apiKey);
+        if (!isValid) {
+          throw new Error('Invalid YNAB API key');
+        }
+      }
+
+      const updateData: any = {
         updated_at: new Date().toISOString()
       };
+
+      if (apiKey) updateData.access_token = apiKey;
+      if (budgetId) updateData.budget_id = budgetId;
 
       const { data, error } = await supabase
         .from('ynab_connections')
@@ -119,21 +142,97 @@ export const ynabApi = {
     }
   },
 
-  // Get all categories for a specific budget
-  async getCategories(budgetId: string): Promise<ApiResponse<YnabCategory[]>> {
+  // Get all budgets using the API key
+  async getBudgets(apiKey: string): Promise<ApiResponse<YnabBudget[]>> {
     try {
-      const { data, error } = await supabase
+      const response = await fetch('https://api.youneedabudget.com/v1/budgets', {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch budgets: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return { data: data.data.budgets, error: null };
+    } catch (error) {
+      console.error('Error fetching budgets:', error);
+      return { data: null, error: error as Error };
+    }
+  },
+
+  // Validate an API key
+  async validateApiKey(apiKey: string): Promise<boolean> {
+    try {
+      const response = await fetch('https://api.youneedabudget.com/v1/user', {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
+      });
+
+      return response.ok;
+    } catch (error) {
+      console.error('Error validating API key:', error);
+      return false;
+    }
+  },
+
+  // Get all categories for a specific budget
+  async getCategories(budgetId: string, apiKey: string): Promise<ApiResponse<YnabCategory[]>> {
+    try {
+      // First check if we have categories stored in the database
+      const { data: storedCategories, error: fetchError } = await supabase
         .from('ynab_categories')
         .select('*')
-        .eq('budget_id', budgetId)
-        .order('name');
+        .eq('budget_id', budgetId);
 
-      if (error) throw error;
+      if (fetchError) throw fetchError;
 
-      return { data, error: null };
+      // If we have categories, return them
+      if (storedCategories && storedCategories.length > 0) {
+        return { data: storedCategories, error: null };
+      }
+
+      // Otherwise, fetch from YNAB API and store
+      const response = await fetch(`https://api.youneedabudget.com/v1/budgets/${budgetId}/categories`, {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch categories: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      const { data: userData } = await supabase.auth.getUser();
+      const userId = userData.user?.id;
+
+      // Process and store categories
+      const categories = [];
+      for (const group of data.data.category_groups) {
+        for (const category of group.categories) {
+          const categoryData = {
+            user_id: userId,
+            budget_id: budgetId,
+            ynab_category_id: category.id,
+            name: category.name,
+            parent_category_id: group.id,
+            is_hidden: category.hidden
+          };
+
+          // Insert into database
+          await supabase.from('ynab_categories').insert(categoryData);
+          categories.push(categoryData as YnabCategory);
+        }
+      }
+
+      return { data: categories, error: null };
     } catch (error) {
       console.error(`Error fetching categories for budget ${budgetId}:`, error);
       return { data: null, error: error as Error };
     }
-  },
+  }
 };
