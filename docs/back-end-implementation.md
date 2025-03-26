@@ -52,11 +52,11 @@
 
 ### 2.4 User Profile Management
 
-* Create user profile tables (Completed)
-* Implement profile CRUD operations (Completed)
-* Add user preferences storage (Completed)
-* Set up user data export functionality (Completed)
-* Implement account deletion process (Completed)
+* Create user profile tables
+* Implement profile CRUD operations
+* Add user preferences storage
+* Set up user data export functionality
+* Implement account deletion process
 
 ## Milestone 3: YNAB API Integration
 
