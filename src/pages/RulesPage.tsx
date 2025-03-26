@@ -7,7 +7,6 @@ import { Plus } from 'lucide-react';
 import { useRules } from '@/hooks/useRules';
 import { RulesTable } from '@/components/RulesTable';
 import { RuleImportExport } from '@/components/RuleImportExport';
-import { PageHeader } from '@/components/ui/page-header';
 
 export function RulesPage() {
   const navigate = useNavigate();
@@ -50,19 +49,13 @@ export function RulesPage() {
   
   return (
     <div className="container mx-auto py-6 space-y-6">
-      <PageHeader
-        title="Categorization Rules"
-        description="Manage your transaction categorization rules"
-        actions={
-          <Button 
-            onClick={() => navigate('/rules/new')}
-            className="bg-app-success hover:bg-app-success/90 text-white font-heading"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            New Rule
-          </Button>
-        }
-      />
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Categorization Rules</h1>
+        <Button onClick={() => navigate('/rules/new')}>
+          <Plus className="h-4 w-4 mr-2" />
+          New Rule
+        </Button>
+      </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="md:col-span-3">
