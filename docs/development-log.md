@@ -36,7 +36,7 @@
 - Added performance indexes and data integrity constraints
 - Documented complete schema in `docs/supabase-table-schemas.md`
 
-### Milestone 2: Authentication and User Management (Completed)
+### Milestone 2: Authentication and User Management (In Progress)
 #### Authentication System
 - Implemented email/password authentication with Supabase
 - Created authentication context and hooks
@@ -52,42 +52,20 @@
 - Added budget selection functionality
 - Created YNAB settings page
 
-#### User Profile Management
-- Implemented user profile management component
-- Added theme switching functionality (light/dark/system)
-- Created theme context for global theme state
-- Integrated user preference storage in Supabase
-- Added profile editing capabilities
-
-### Milestone 3: Core Features (In Progress)
-#### Transaction Management
-- Implemented transaction preview component
-- Created transaction preview page
-- Added rule execution tracking functionality
-- Implemented category mapping system
-- Added support for custom category groups
-
-#### Rule Management
-- Enhanced rule editor interface
-- Added support for complex rule conditions
-- Implemented rule execution history tracking
-- Created visualizations for rule performance
-
 ### Next Steps
-1. Complete Milestone 3: Core Features
-   - Finalize rule execution engine
-   - Implement batch processing for transactions
-   - Add rule import/export functionality
-   - Create rule templates for common scenarios
+1. Complete Milestone 2: Authentication and User Management
+   - Implement user profile management
+   - Add theme switching functionality
+   - Create user preference storage
 
-2. Begin Milestone 4: User Interface
+2. Begin Milestone 3: Core Features
+   - Implement categorization rule management
+   - Create transaction preview system
+   - Add category mapping functionality
+   - Implement rule execution tracking
+
+3. Begin Milestone 4: User Interface
    - Create responsive dashboard layout
-   - Enhance data visualization components
-   - Implement guided setup wizard
-   - Add keyboard shortcuts for power users
-
-3. Begin Milestone 5: Performance and Optimization
-   - Implement caching for frequently accessed data
-   - Optimize database queries
-   - Add pagination for large datasets
-   - Implement background processing for rule execution
+   - Implement rule editor interface
+   - Add transaction preview visualization
+   - Create audit log viewer
