@@ -1,18 +1,18 @@
 # Detailed Implementation Plan: Supabase Backend with YNAB API Integration
 
-## Milestone 1: Setup and Infrastructure (Completed)
+## Milestone 1: Setup and Infrastructure
 
 ### 1.1 Supabase Project Setup
 
 * Create a new Supabase project
-* Configure authentication settings (email/password)
+* Configure authentication settings (email/password and OAuth)
 * Set up project environment variables
 * Create a local development environment with Supabase CLI
 
 ### 1.2 Database Schema Design
 
 * Design tables for user data
-* Design tables for YNAB integration data (API keys, budgets)
+* Design tables for YNAB integration data (tokens, budgets)
 * Design tables for categorization rules
 * Implement relationships between tables
 * Set up Row Level Security (RLS) policies
@@ -24,33 +24,25 @@
 * Configure CORS settings
 * Implement secure credential storage
 
-## Milestone 2: Authentication and User Management (In Progress)
+## Milestone 2: Authentication and User Management
 
 ### 2.1 User Authentication System
 
-* Implemented email/password authentication with Supabase
-* Created authentication context and hooks
-* Added protected route functionality
-* Implemented login and registration forms
-* Added password reset functionality
-* Updated App.tsx to include authentication routes
+* Implement email/password authentication
+* Set up OAuth integration for YNAB
+* Create user profile management
+* Implement password reset functionality
+* Add session management
 
-### 2.2 YNAB API Key Management
-
-* Changed approach from OAuth to "Bring Your Own API Key"
-* Updated YNAB API service to support API key validation
-* Implemented API key management interface
-* Added budget selection functionality
-* Created YNAB settings page
-
-### 2.3 Authorization System
+### 2.2 Authorization System
 
 * Set up role-based access control
 * Implement Row Level Security policies
 * Create middleware for route protection
 * Add user permission validation
+* Implement API key management for YNAB
 
-### 2.4 User Profile Management
+### 2.3 User Profile Management
 
 * Create user profile tables
 * Implement profile CRUD operations
@@ -60,13 +52,13 @@
 
 ## Milestone 3: YNAB API Integration
 
-### 3.1 YNAB Connection Management
+### 3.1 YNAB Authentication
 
-* Implement API key validation with YNAB
-* Store and manage YNAB API keys securely
-* Set up connection status monitoring
-* Add error handling for API requests
-* Create budget selection interface
+* Implement OAuth flow with YNAB
+* Store and manage YNAB access tokens securely
+* Set up token refresh mechanism
+* Add token validation and error handling
+* Create connection status monitoring
 
 ### 3.2 YNAB Data Fetching
 
@@ -201,18 +193,18 @@
 ### 8.2 Monitoring and Logging
 
 * Set up application monitoring
-* Implement logging system
-* Create alerting rules
-* Add performance monitoring
-* Implement error tracking
+* Implement structured logging
+* Create performance dashboards
+* Add error tracking and alerting
+* Implement user activity monitoring
 
-### 8.3 Maintenance
+### 8.3 Documentation and Support
 
-* Create backup strategy
-* Implement database maintenance
-* Add performance optimization
-* Create documentation updates
-* Implement security updates
+* Create technical documentation
+* Add user guides
+* Implement help center
+* Create troubleshooting guides
+* Add system status page
 
 ## Milestone 9: Performance Optimization
 

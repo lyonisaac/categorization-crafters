@@ -25,7 +25,3 @@ dist-ssr
 
 # Windsurf 
 .windsurfrules
-.env
-
-# Supabase
-supabase/
