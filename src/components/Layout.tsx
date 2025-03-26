@@ -11,7 +11,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   
   const navItems = [
-    { name: 'Rules', path: '/rules', icon: <List className="w-5 h-5" /> },
+    { name: 'Rules', path: '/', icon: <List className="w-5 h-5" /> },
     { name: 'Rule Editor', path: '/rule-editor', icon: <BookOpen className="w-5 h-5" /> },
     { name: 'Transactions', path: '/transactions', icon: <DollarSign className="w-5 h-5" /> },
     { name: 'Logs', path: '/logs', icon: <BarChart className="w-5 h-5" /> },
@@ -45,7 +45,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                           : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
                       }`
                     }
-                    end={item.path === '/rules'}
+                    end={item.path === '/'}
                   >
                     {item.name}
                   </NavLink>
@@ -77,7 +77,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         : 'text-gray-500 hover:text-gray-700'
                     }`
                   }
-                  end={item.path === '/rules'}
+                  end={item.path === '/'}
                 >
                   {item.icon}
                   <span className="mt-1">{item.name}</span>

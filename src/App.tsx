@@ -18,8 +18,6 @@ import TransactionPreviewPage from "./pages/TransactionPreview";
 import RuleExecutionsPage from "./pages/RuleExecutions";
 import CategoryMappingPage from "./pages/CategoryMapping";
 import TransactionsPage from "./pages/TransactionsPage";
-import { RulesPage } from "./pages/RulesPage";
-import { RuleDetailPage } from "./pages/RuleDetailPage";
 import ErrorBoundary from './components/ErrorBoundary';
 
 const queryClient = new QueryClient();
@@ -41,26 +39,6 @@ function App() {
                   <Route path="/" element={
                     <ProtectedRoute>
                       <Index />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/rules" element={
-                    <ProtectedRoute>
-                      <RulesPage />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/rules/:id" element={
-                    <ProtectedRoute>
-                      <RuleDetailPage />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/rules/new" element={
-                    <ProtectedRoute>
-                      <RuleEditor />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/rules/:id/edit" element={
-                    <ProtectedRoute>
-                      <RuleEditor />
                     </ProtectedRoute>
                   } />
                   <Route path="/rule-editor" element={
